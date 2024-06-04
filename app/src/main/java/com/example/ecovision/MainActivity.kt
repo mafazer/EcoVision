@@ -3,15 +3,18 @@ package com.example.ecovision
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.example.ecovision.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
+
+    private lateinit var binding: ActivityMainBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
-        bottomNavigationView.menu.getItem(2).isEnabled = false
+        binding.bottomNavigationView.menu.getItem(2).isEnabled = false
 
         val homeFragment = HomeFragment()
         val articleFragment = ArticleFragment()
@@ -20,8 +23,8 @@ class MainActivity : AppCompatActivity() {
 
         setCurrentFragment(homeFragment)
 
-        bottomNavigationView.setOnNavigationItemSelectedListener {
-            when(it.itemId) {
+        binding.bottomNavigationView.setOnItemSelectedListener { item ->
+            when (item.itemId) {
                 R.id.miHome -> setCurrentFragment(homeFragment)
                 R.id.miArticle -> setCurrentFragment(articleFragment)
                 R.id.miHistory -> setCurrentFragment(historyFragment)
@@ -30,6 +33,9 @@ class MainActivity : AppCompatActivity() {
             true
         }
 
+        binding.fabScan.setOnClickListener {
+            // Handle the click event for the floating action button
+        }
     }
 
     private fun setCurrentFragment(fragment: Fragment) =
