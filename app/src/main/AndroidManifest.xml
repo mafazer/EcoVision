@@ -15,6 +15,9 @@
         android:theme="@style/Theme.EcoVision"
         tools:targetApi="31">
         <activity
+            android:name=".ScanActivity"
+            android:exported="false" />
+        <activity
             android:name=".DetailPlasticActivity"
             android:exported="false" />
         <activity

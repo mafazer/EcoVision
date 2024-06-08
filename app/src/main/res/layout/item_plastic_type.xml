@@ -20,12 +20,14 @@
 
         <!-- New horizontal LinearLayout to contain TextView and ImageView -->
 
-        <ImageView
+        <com.google.android.material.imageview.ShapeableImageView
+            android:background="@drawable/roundstyle"
             android:id="@+id/imageViewPlastic"
             android:layout_width="match_parent"
             android:layout_height="130dp"
             android:layout_gravity="center"
             android:scaleType="centerCrop"
+            app:shapeAppearanceOverlay="@style/RoundedCorners"
             tools:src="@drawable/pet_image" />
 
         <LinearLayout
