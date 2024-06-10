@@ -5,8 +5,6 @@
         android:title="Home"
         android:icon="@drawable/ic_home" />
 
-    <!-- belum ganti icon -->
-
     <item android:id="@+id/miArticle"
         android:title="Learn"
         android:icon="@drawable/ic_article" />
