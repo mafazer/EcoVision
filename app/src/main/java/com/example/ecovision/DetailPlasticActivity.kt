@@ -1,9 +1,11 @@
 package com.example.ecovision
 
 import android.os.Bundle
+import android.view.MenuItem
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import com.denzcoskun.imageslider.ImageSlider
 import com.denzcoskun.imageslider.constants.ScaleTypes
 import com.denzcoskun.imageslider.models.SlideModel
@@ -13,6 +15,11 @@ class DetailPlasticActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail_plastic)
+
+        val toolbar = findViewById<Toolbar>(R.id.toolbar)
+        setSupportActionBar(toolbar)
+        supportActionBar?.title = "Jenis Plastik"
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         val plasticType: PlasticType? = intent.getParcelableExtra("plastic_type")
 
@@ -35,4 +42,15 @@ class DetailPlasticActivity : AppCompatActivity() {
             imageSlideshow.setImageList(imageList, ScaleTypes.CENTER_CROP)
         }
     }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            android.R.id.home -> {
+                onBackPressedDispatcher.onBackPressed()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
 }
