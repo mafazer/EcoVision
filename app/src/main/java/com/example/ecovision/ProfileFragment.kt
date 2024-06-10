@@ -1,5 +1,6 @@
 package com.example.ecovision
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -8,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import de.hdodenhof.circleimageview.CircleImageView
 
 class ProfileFragment : Fragment() {
 
@@ -22,8 +24,9 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
         // Initialize views
-        val profilePicture = view.findViewById<ImageView>(R.id.profilePicture)
+        val profilePicture = view.findViewById<CircleImageView>(R.id.profilePicture)
         val username = view.findViewById<TextView>(R.id.username)
         val fullName = view.findViewById<TextView>(R.id.fullName)
         val email = view.findViewById<TextView>(R.id.email)
@@ -41,7 +44,8 @@ class ProfileFragment : Fragment() {
 
         // Set click listeners for buttons if needed
         editButton.setOnClickListener {
-            // Handle edit profile
+            val intent = Intent(context, EditProfileActivity::class.java)
+            startActivity(intent)
         }
 
         logoutButton.setOnClickListener {

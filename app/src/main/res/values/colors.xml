@@ -3,4 +3,7 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="white_transparent_70">#B3FFFFFF</color>
+    <color name="green">#0C6A24</color>
+    <color name="light_green">#DEFAE5</color>
+    <color name="navi">#2D3D4F</color>
 </resources>

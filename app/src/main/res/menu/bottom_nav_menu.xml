@@ -8,7 +8,7 @@
     <!-- belum ganti icon -->
 
     <item android:id="@+id/miArticle"
-        android:title="Article"
+        android:title="Learn"
         android:icon="@drawable/ic_article" />
 
     <item android:id="@+id/placeholder"

@@ -29,7 +29,8 @@ class HomeFragment : Fragment() {
 
         // Set up click listener using view binding
         binding.imageViewQuestionMark.setOnClickListener {
-
+            val intent = Intent(requireContext(), WelcomeActivity::class.java)
+            startActivity(intent)
         }
     }
 

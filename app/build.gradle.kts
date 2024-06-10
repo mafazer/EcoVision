@@ -62,6 +62,7 @@ dependencies {
     implementation("androidx.viewpager2:viewpager2:1.1.0")
     implementation("com.tbuonomo:dotsindicator:4.3")
     implementation("com.github.denzcoskun:ImageSlideshow:0.1.0")
+    implementation("de.hdodenhof:circleimageview:3.1.0")
 
 
 }

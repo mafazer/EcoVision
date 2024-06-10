@@ -1,5 +1,6 @@
 package com.example.ecovision
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -34,7 +35,8 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.fabScan.setOnClickListener {
-            // Handle the click event for the floating action button
+            val intent = Intent(this, ScanActivity::class.java)
+            startActivity(intent)
         }
     }
 

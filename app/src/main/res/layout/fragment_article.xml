@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp"
+    android:layout_marginBottom="56dp"
     tools:context=".ArticleFragment">
 
     <TextView
@@ -23,7 +24,7 @@
         android:layout_height="match_parent"
         android:layout_gravity="center"
         android:padding="4dp"
-        android:layout_marginBottom="56dp"
+
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         tools:spanCount="2"
         tools:listitem="@layout/item_plastic_type"

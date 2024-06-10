@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingBottom="@dimen/bottom_navigation_padding"
     tools:context=".ProfileFragment">
 
     <LinearLayout
@@ -27,14 +28,15 @@
                 android:orientation="vertical"
                 android:padding="16dp">
 
-                <ImageView
+                <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/profilePicture"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:layout_marginTop="56dp"
                     android:layout_marginBottom="16dp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/ic_profile" />
+                    android:src="@drawable/ic_profile"
+                    android:contentDescription="Profile Picture" />
 
                 <TextView
                     android:id="@+id/username"
@@ -139,10 +141,9 @@
 
                 <Button
                     android:id="@+id/logoutButton"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="56dp"
-                    android:layout_marginBottom="16dp"
                     android:backgroundTint="#9c1121"
                     android:text="Logout" />
 
