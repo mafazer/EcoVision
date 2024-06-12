@@ -59,7 +59,6 @@
                     android:textSize="18sp"
                     android:textStyle="bold"/>
             </LinearLayout>
-
         </androidx.cardview.widget.CardView>
 
 
@@ -83,18 +82,20 @@
 
                 <TextView
                     android:id="@+id/textViewTipsTitle"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Tips of the day"
                     android:textColor="@color/white"
                     android:textSize="18sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:drawableStart="@drawable/ic_tips"
+                    android:drawablePadding="6dp" />
 
                 <TextView
                     android:id="@+id/textViewTip"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="4dp"
                     android:text="Hindari penggunaan plastik sekali pakai untuk menjaga lingkungan."
                     android:textColor="@color/white"
                     android:textSize="16sp" />

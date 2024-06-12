@@ -12,4 +12,5 @@
     <string name="desc_menu_3">Akses artikel informatif tentang berbagai jenis plastik, dampaknya terhadap lingkungan, dan praktik terbaik untuk daur ulang.</string>
     <string name="desc_menu_4">Bergabunglah dengan ecoVision. Bersama kita buat perbedaan!</string>
     <string name="start_now">Mulai Sekarang</string>
+    <string name="title_activity_maps">MapsActivity</string>
 </resources>

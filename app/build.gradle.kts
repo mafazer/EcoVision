@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
     id("kotlin-parcelize")
+    alias(libs.plugins.google.android.libraries.mapsplatform.secrets.gradle.plugin)
 }
 
 android {
@@ -47,6 +48,7 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
+    implementation(libs.play.services.maps)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -59,10 +61,11 @@ dependencies {
     implementation("androidx.preference:preference-ktx:1.2.1")
     implementation("androidx.datastore:datastore-preferences:1.1.1")
 
-    implementation("androidx.viewpager2:viewpager2:1.1.0")
-    implementation("com.tbuonomo:dotsindicator:4.3")
     implementation("com.github.denzcoskun:ImageSlideshow:0.1.0")
     implementation("de.hdodenhof:circleimageview:3.1.0")
+
+    implementation("com.google.android.gms:play-services-maps:18.0.2")
+    implementation("com.google.android.gms:play-services-location:20.0.0")
 
 
 }
