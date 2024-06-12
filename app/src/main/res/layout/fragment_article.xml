@@ -6,14 +6,14 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp"
-    android:layout_marginBottom="56dp"
+    android:background="@color/white"
     tools:context=".ArticleFragment">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Pelajari jenis-jenis plastik sebelum kamu daur ulang"
-        android:textColor="#618c00"
+        android:textColor="@color/black"
         android:textSize="24sp"
         android:textStyle="bold"
         android:layout_marginBottom="8dp" />
@@ -23,11 +23,16 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
-        android:padding="4dp"
-
+        android:paddingBottom="@dimen/bottom_navigation_padding"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         tools:spanCount="2"
         tools:listitem="@layout/item_plastic_type"
         tools:itemCount="7"/>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/homepage_image"
+        android:paddingBottom="@dimen/bottom_navigation_padding"/>
 
 </LinearLayout>

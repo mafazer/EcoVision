@@ -4,16 +4,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:orientation="vertical">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"/>
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:elevation="4dp"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:fillViewport="true">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -24,8 +30,6 @@
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="200dp">
-
-                <!-- Placeholder image -->
 
                 <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/imageViewPlasticDetail"
@@ -45,6 +49,7 @@
                     android:background="@drawable/roundstyle"
                     android:orientation="horizontal"
                     android:padding="8dp"
+                    android:backgroundTint="@color/light_green"
                     app:shapeAppearanceOverlay="@style/RoundedCorners">
 
                     <ImageView
@@ -53,7 +58,7 @@
                         android:layout_height="32dp"
                         android:layout_gravity="center"
                         android:contentDescription="recycling symbol"
-                        tools:src="@drawable/ic_pet" /> <!-- Placeholder image -->
+                        tools:src="@drawable/ic_pet" />
 
                     <TextView
                         android:id="@+id/textViewPlasticNameDetail"
@@ -61,98 +66,58 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:text="Jenis Plastik"
+                        android:textColor="@color/black"
                         android:textSize="24sp"
                         android:textStyle="bold" />
                 </LinearLayout>
             </FrameLayout>
 
-            <!-- CardView for "Deskripsi Plastik" -->
-            <androidx.cardview.widget.CardView
+            <TextView
+                android:id="@+id/textViewDescriptionDetail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                app:cardCornerRadius="8dp"
-                app:cardElevation="4dp">
+                android:text="Deskripsi Plastik"
+                android:textColor="@android:color/black"
+                android:textSize="16sp" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="16dp">
-
-                    <TextView
-                        android:id="@+id/textViewDescriptionDetail"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="0dp"
-                        android:text="Deskripsi Plastik"
-                        android:textColor="@android:color/black" />
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
-
-            <!-- CardView for "Cara Daur Ulang" -->
-            <androidx.cardview.widget.CardView
+            <TextView
+                android:id="@+id/textViewRecyclingProcessDetail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                app:cardCornerRadius="8dp"
-                app:cardElevation="4dp">
+                android:text="Cara Daur Ulang"
+                android:textColor="@android:color/black"
+                android:textSize="18sp"
+                android:textStyle="bold" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="16dp">
+            <TextView
+                android:id="@+id/textViewRecyclingProcessDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Proses daur ulang plastik."
+                android:textColor="@android:color/black"
+                android:textSize="16sp" />
 
-                    <TextView
-                        android:id="@+id/textViewRecyclingProcessDetail"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Cara Daur Ulang"
-                        android:textColor="@android:color/black"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/textViewRecyclingProcessDescription"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:text="Proses daur ulang plastik."
-                        android:textColor="@android:color/black" />
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
-
-            <!-- CardView for "Bahaya bagi Lingkungan" -->
-            <androidx.cardview.widget.CardView
+            <TextView
+                android:id="@+id/textViewEnvironmentalImpactDetail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                app:cardCornerRadius="8dp"
-                app:cardElevation="4dp">
+                android:text="Bahaya bagi Lingkungan"
+                android:textColor="@android:color/black"
+                android:textSize="18sp"
+                android:textStyle="bold" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="16dp">
-
-                    <TextView
-                        android:id="@+id/textViewEnvironmentalImpactDetail"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Bahaya bagi Lingkungan"
-                        android:textColor="@android:color/black"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/textViewEnvironmentalImpactDescription"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:text="Dampak lingkungan dari plastik."
-                        android:textColor="@android:color/black" />
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
+            <TextView
+                android:id="@+id/textViewEnvironmentalImpactDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Dampak lingkungan dari plastik."
+                android:textColor="@android:color/black"
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/textViewExamplesDetail"
@@ -161,6 +126,7 @@
                 android:layout_marginTop="16dp"
                 android:text="Contoh Benda"
                 android:textColor="@android:color/black"
+                android:textSize="18sp"
                 android:textStyle="bold" />
 
             <com.denzcoskun.imageslider.ImageSlider
@@ -168,9 +134,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:layout_marginTop="8dp"
-                app:indicatorSize="32dp"
                 app:iss_auto_cycle="true"
-                app:iss_corner_radius="70"
+                app:iss_corner_radius="80"
                 app:iss_period="5000" />
 
         </LinearLayout>
