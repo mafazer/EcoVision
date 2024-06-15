@@ -6,15 +6,17 @@ import android.location.Location
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.MarkerOptions
 import com.example.ecovision.databinding.ActivityMapsBinding
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationServices
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var mMap: GoogleMap
@@ -23,6 +25,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var recyclingLocations: List<RecyclingLocation>
     private var userLocation: Location? = null
     private var scannedPlasticType: String? = null
+    private val boundsBuilder = LatLngBounds.Builder()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,38 +42,45 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
+        mMap.uiSettings.isZoomControlsEnabled = true
+        mMap.uiSettings.isCompassEnabled = true
+        mMap.uiSettings.isMyLocationButtonEnabled = true
 
-        // Menambahkan marker dummy data untuk lokasi daur ulang di pulau-pulau besar Indonesia
-        addRecyclingLocations()
-
-        // Meminta izin lokasi pengguna
-        if (ActivityCompat.checkSelfPermission(
-                this,
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            ActivityCompat.requestPermissions(
-                this,
-                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-                LOCATION_PERMISSION_REQUEST_CODE
-            )
+        // Request location permissions
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), LOCATION_PERMISSION_REQUEST_CODE)
         } else {
-            // Mendapatkan lokasi pengguna saat ini
+            mMap.isMyLocationEnabled = true
+            getUserLocation()
+        }
+
+        // Add recycling locations
+        addRecyclingLocations()
+    }
+
+    private fun getUserLocation() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             fusedLocationClient.lastLocation.addOnSuccessListener { location ->
                 if (location != null) {
                     userLocation = location
                     val userLatLng = LatLng(location.latitude, location.longitude)
-                    mMap.addMarker(MarkerOptions().position(userLatLng).title("Lokasi Saya"))
-                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLatLng, 10f))
+
+                    boundsBuilder.include(userLatLng)
+                    // Move camera directly to user's location
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLatLng, 13f))
                     showNearbyLocations()
+                } else {
+                    animateToDefaultLocation()
                 }
+            }.addOnFailureListener {
+                animateToDefaultLocation()
             }
         }
     }
 
     private fun addRecyclingLocations() {
-        // Dummy data untuk lokasi daur ulang
-        val recyclingLocations = listOf(
+        // Dummy data for recycling locations
+        recyclingLocations = listOf(
             RecyclingLocation(LatLng(-6.2607, 106.7816), "Jakarta", "Waste4Change Recycling Center"),
             RecyclingLocation(LatLng(-6.2008, 106.8525), "Jakarta", "Green Project Jakarta"),
             RecyclingLocation(LatLng(-6.2288, 106.8256), "Jakarta", "Project Jakarta"),
@@ -134,14 +144,10 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             RecyclingLocation(LatLng(-0.9693, 100.3525), "Padang", "Bank Sampah Bersih Padang")
         )
 
-        // Menambahkan marker untuk setiap lokasi daur ulang
+        // Add markers for each recycling location
         for (location in recyclingLocations) {
-            mMap.addMarker(
-                MarkerOptions()
-                    .position(location.latLng)
-                    .title(location.city)
-                    .snippet("Tempat recycle: ${location.plasticType}")
-            )
+            mMap.addMarker(MarkerOptions().position(location.latLng).title(location.city).snippet("Tempat recycle: ${location.plasticType}"))
+            boundsBuilder.include(location.latLng)
         }
     }
 
@@ -149,24 +155,23 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         if (userLocation != null && scannedPlasticType != null) {
             mMap.clear()
             val userLatLng = LatLng(userLocation!!.latitude, userLocation!!.longitude)
-            mMap.addMarker(MarkerOptions().position(userLatLng).title("Lokasi Saya"))
 
-            // Menampilkan nearby location berdasarkan jenis plastik yang di-scan
+            boundsBuilder.include(userLatLng)
+
+            // Display nearby locations based on the scanned plastic type
             val nearbyLocations = getNearbyLocations(userLatLng, scannedPlasticType!!)
             for (location in nearbyLocations) {
-                mMap.addMarker(
-                    MarkerOptions()
-                        .position(location.latLng)
-                        .title(location.city)
-                        .snippet("Tempat recycle: ${location.plasticType}")
-                )
+                mMap.addMarker(MarkerOptions().position(location.latLng).title(location.city).snippet("Tempat recycle: ${location.plasticType}"))
+                boundsBuilder.include(location.latLng)
             }
+
+            animateToShowAllMarkers()
         }
     }
 
     private fun getNearbyLocations(userLatLng: LatLng, plasticType: String): List<RecyclingLocation> {
         val nearbyLocations = mutableListOf<RecyclingLocation>()
-        val radius = 10000 // Radius dalam meter (10 km)
+        val radius = 10000 // Radius in meters (10 km)
 
         for (location in recyclingLocations) {
             if (location.plasticType == plasticType) {
@@ -182,43 +187,36 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private fun getDistance(latLng1: LatLng, latLng2: LatLng): Float {
         val results = FloatArray(1)
-        Location.distanceBetween(
-            latLng1.latitude,
-            latLng1.longitude,
-            latLng2.latitude,
-            latLng2.longitude,
-            results
-        )
+        Location.distanceBetween(latLng1.latitude, latLng1.longitude, latLng2.latitude, latLng2.longitude, results)
         return results[0]
     }
 
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
+    private fun animateToShowAllMarkers() {
+        try {
+            val bounds: LatLngBounds = boundsBuilder.build()
+            mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, 100))
+        } catch (e: IllegalStateException) {
+            animateToDefaultLocation()
+        }
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == LOCATION_PERMISSION_REQUEST_CODE) {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // Izin lokasi diberikan, dapatkan lokasi pengguna
-                if (ActivityCompat.checkSelfPermission(
-                        this,
-                        Manifest.permission.ACCESS_FINE_LOCATION
-                    ) != PackageManager.PERMISSION_GRANTED
-                ) {
-                    return
+                if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                    mMap.isMyLocationEnabled = true
+                    getUserLocation()
                 }
-                fusedLocationClient.lastLocation.addOnSuccessListener { location ->
-                    if (location != null) {
-                        userLocation = location
-                        val userLatLng = LatLng(location.latitude, location.longitude)
-                        mMap.addMarker(MarkerOptions().position(userLatLng).title("Lokasi Saya"))
-                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLatLng, 10f))
-                        showNearbyLocations()
-                    }
-                }
+            } else {
+                animateToDefaultLocation()
             }
         }
+    }
+
+    private fun animateToDefaultLocation() {
+        val defaultLocation = LatLng(-2.8126584, 108.6067792)
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(defaultLocation, 5f))
     }
 
     companion object {
