@@ -21,6 +21,7 @@ class DetailPlasticActivity : AppCompatActivity() {
         supportActionBar?.title = "Jenis Plastik"
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
+
         val plasticType: PlasticType? = intent.getParcelableExtra("plastic_type")
 
         plasticType?.let {
