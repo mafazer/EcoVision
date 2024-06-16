@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -57,4 +58,11 @@ dependencies {
 
     implementation("androidx.preference:preference-ktx:1.2.1")
     implementation("androidx.datastore:datastore-preferences:1.1.1")
+
+    implementation(libs.play.services.auth)
+    implementation(platform("com.google.firebase:firebase-bom:33.1.0"))
+    implementation("com.google.firebase:firebase-analytics")
+    implementation(libs.firebase.auth)
+    implementation(libs.androidx.credentials)
+    implementation(libs.androidx.credentials.play.services.auth)
 }

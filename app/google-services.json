@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "159466325692",
+    "project_id": "flash-parity-424914-r9",
+    "storage_bucket": "flash-parity-424914-r9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:159466325692:android:55275de1994dd29f4db2b9",
+        "android_client_info": {
+          "package_name": "com.example.ecovision"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "159466325692-rcqch7idikue1vf8f4sq37jvea9e51j3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.ecovision",
+            "certificate_hash": "afcf2a3c4ae2ac3bbb719ac270c7670fcbab7b3b"
+          }
+        },
+        {
+          "client_id": "159466325692-nkfdstloodagibdief5iknlqj1dqu9cp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCIS5nDgfjXfx_mmJx72JPpkXZ0BDAzuwE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "159466325692-nkfdstloodagibdief5iknlqj1dqu9cp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,5 +1,14 @@
 <resources>
     <string name="app_name">EcoVision</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="loginview">LOGIN</string>
+    <string name="login">Login</string>
+    <string name="atau">Atau</string>
+    <string name="buatakun">Belum Ada Akun? Daftar Sekarang</string>
+    <string name="registerview">REGISTER</string>
+    <string name="register">Register</string>
+    <string name="name">Nama</string>
+    <string name="sudahakun">Sudah Ada Akun? Masuk Sekarang</string>
 </resources>
