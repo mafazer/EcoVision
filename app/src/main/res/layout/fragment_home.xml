@@ -98,7 +98,7 @@
                     android:layout_marginTop="4dp"
                     android:text="Hindari penggunaan plastik sekali pakai untuk menjaga lingkungan."
                     android:textColor="@color/white"
-                    android:textSize="16sp" />
+                    android:textSize="14sp" />
             </LinearLayout>
 
         </androidx.cardview.widget.CardView>
