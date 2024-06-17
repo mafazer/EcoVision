@@ -4,6 +4,7 @@ import android.content.ContentValues.TAG
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.ecovision.databinding.ActivitySignUpBinding
@@ -25,10 +26,14 @@ class SignUpActivity : AppCompatActivity() {
 
         auth = Firebase.auth
 
-        binding.registerButton.setOnClickListener{
-            auth.createUserWithEmailAndPassword(binding.emailEditText.getText().toString().trim(),
-                binding.passwordEditText.getText().toString().trim())
+        binding.registerButton.setOnClickListener {
+            showLoading(true)
+            auth.createUserWithEmailAndPassword(
+                binding.emailEditText.text.toString().trim(),
+                binding.passwordEditText.text.toString().trim()
+            )
                 .addOnCompleteListener(this) { task ->
+                    showLoading(false)
                     if (task.isSuccessful) {
                         // Sign in success, update UI with the signed-in user's information
                         Log.d(TAG, "createUserWithEmail:success")
@@ -46,9 +51,20 @@ class SignUpActivity : AppCompatActivity() {
                     }
                 }
         }
+
         binding.move.setOnClickListener{
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
+        }
+    }
+
+    private fun showLoading(isLoading: Boolean) {
+        if (isLoading) {
+            binding.progressBar.visibility = View.VISIBLE
+            binding.registerButton.isEnabled = false
+        } else {
+            binding.progressBar.visibility = View.GONE
+            binding.registerButton.isEnabled = true
         }
     }
     public override fun onStart() {

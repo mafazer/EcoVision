@@ -10,7 +10,6 @@ import com.example.ecovision.R
 class ScanActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContentView(R.layout.activity_scan)
 
     }

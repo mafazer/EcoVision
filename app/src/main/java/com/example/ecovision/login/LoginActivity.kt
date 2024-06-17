@@ -6,6 +6,7 @@ import android.content.ContentValues.TAG
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -49,16 +50,23 @@ class LoginActivity : AppCompatActivity() {
 
         auth = Firebase.auth
 
-        binding.loginButton.setOnClickListener{
-            auth.signInWithEmailAndPassword(binding.emailEditText.getText().toString().trim(),
-                binding.passwordEditText.getText().toString().trim())
+        binding.loginButton.setOnClickListener {
+            showLoading(true)
+            auth.signInWithEmailAndPassword(
+                binding.emailEditText.text.toString().trim(),
+                binding.passwordEditText.text.toString().trim()
+            )
                 .addOnCompleteListener(this) { task ->
+                    showLoading(false)
                     if (task.isSuccessful) {
                         // Sign in success, update UI with the signed-in user's information
                         Log.d(ContentValues.TAG, "LoginUserWithEmail:success")
                         val user = auth.currentUser
-                        val intent = Intent(this, MainActivity::class.java)
+                        val intent = Intent(this, MainActivity::class.java).apply {
+                            putExtra("username", user?.displayName)
+                        }
                         startActivity(intent)
+                        finish()
                     } else {
                         // If sign in fails, display a message to the user.
                         Log.w(ContentValues.TAG, "LoginUserWithEmail:failure", task.exception)
@@ -71,9 +79,10 @@ class LoginActivity : AppCompatActivity() {
                 }
         }
         binding.signInButton.setOnClickListener {
+            showLoading(true)
             signIn()
         }
-        binding.move.setOnClickListener{
+        binding.move.setOnClickListener {
             val intent = Intent(this, SignUpActivity::class.java)
             startActivity(intent)
         }
@@ -87,6 +96,7 @@ class LoginActivity : AppCompatActivity() {
     private var resultLauncher: ActivityResultLauncher<Intent> = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) { result ->
+        showLoading(false)
         if (result.resultCode == Activity.RESULT_OK) {
             val task: Task<GoogleSignInAccount> = GoogleSignIn.getSignedInAccountFromIntent(result.data)
             try {
@@ -109,7 +119,11 @@ class LoginActivity : AppCompatActivity() {
                     // Sign in success, update UI with the signed-in user's information
                     Log.d(TAG, "signInWithCredential:success")
                     val user: FirebaseUser? = auth.currentUser
-                    updateUI(user)
+                    val intent = Intent(this, MainActivity::class.java).apply {
+                        putExtra("username", user?.displayName)
+                    }
+                    startActivity(intent)
+                    finish()
                 } else {
                     // If sign in fails, display a message to the user.
                     Log.w(TAG, "signInWithCredential:failure", task.exception)
@@ -117,20 +131,39 @@ class LoginActivity : AppCompatActivity() {
                 }
             }
     }
+
     private fun updateUI(currentUser: FirebaseUser?) {
-        if (currentUser != null){
-            startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+        if (currentUser != null) {
+            val intent = Intent(this@LoginActivity, MainActivity::class.java).apply {
+                putExtra("username", currentUser.displayName)
+            }
+            startActivity(intent)
             finish()
         }
     }
+
     public override fun onStart() {
         super.onStart()
         // Check if user is signed in (non-null) and update UI accordingly.
         val currentUser = auth.currentUser
         if (currentUser != null) {
-            val intent = Intent(this, MainActivity::class.java)
+            val intent = Intent(this, MainActivity::class.java).apply {
+                putExtra("username", currentUser.displayName)
+            }
             startActivity(intent)
+            finish()
         }
     }
 
+    private fun showLoading(isLoading: Boolean) {
+        if (isLoading) {
+            binding.progressBar.visibility = View.VISIBLE
+            binding.loginButton.isEnabled = false
+            binding.signInButton.isEnabled = false
+        } else {
+            binding.progressBar.visibility = View.GONE
+            binding.loginButton.isEnabled = true
+            binding.signInButton.isEnabled = true
+        }
+    }
 }

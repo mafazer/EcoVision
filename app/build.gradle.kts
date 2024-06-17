@@ -68,6 +68,8 @@ dependencies {
     implementation(libs.firebase.auth)
     implementation(libs.androidx.credentials)
     implementation(libs.androidx.credentials.play.services.auth)
+    implementation("com.google.firebase:firebase-firestore-ktx:25.0.0")
+
 
     implementation("com.github.denzcoskun:ImageSlideshow:0.1.0")
     implementation("de.hdodenhof:circleimageview:3.1.0")

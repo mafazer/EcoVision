@@ -7,7 +7,7 @@
     android:orientation="vertical"
     android:padding="16dp"
     android:background="@color/white"
-    tools:context=".ui.ArticleFragment">
+    tools:context=".ui.fragment.ArticleFragment">
 
     <TextView
         android:layout_width="wrap_content"

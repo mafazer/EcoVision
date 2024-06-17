@@ -1,4 +1,4 @@
-package com.example.ecovision.ui
+package com.example.ecovision.ui.fragment
 
 import android.content.Intent
 import android.os.Bundle
@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.ecovision.data.PlasticData
 import com.example.ecovision.adapter.PlasticTypeAdapter
 import com.example.ecovision.R
+import com.example.ecovision.ui.DetailPlasticActivity
 
 class ArticleFragment : Fragment() {
 

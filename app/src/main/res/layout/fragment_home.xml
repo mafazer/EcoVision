@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context=".ui.HomeFragment">
+    tools:context=".ui.fragment.HomeFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:text="Halo, \nRudytabootie"
             android:textColor="@color/black"
-            android:textSize="36sp"
+            android:textSize="32sp"
             android:textStyle="bold"
             android:fontFamily="@font/poppins_semibold"
             app:layout_constraintStart_toStartOf="parent"

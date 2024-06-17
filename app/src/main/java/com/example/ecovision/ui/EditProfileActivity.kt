@@ -11,13 +11,22 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import java.util.Calendar
 import android.Manifest
+import android.app.Activity
 import android.os.Build
+import android.util.Log
 import android.view.MenuItem
+import android.view.View
+import com.bumptech.glide.Glide
+import com.example.ecovision.R
 import com.example.ecovision.databinding.ActivityEditProfileBinding
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 
 class EditProfileActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityEditProfileBinding
+    private lateinit var auth: FirebaseAuth
+    private lateinit var db: FirebaseFirestore
 
     private val pickImage = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
         uri?.let {
@@ -34,12 +43,30 @@ class EditProfileActivity : AppCompatActivity() {
         supportActionBar?.title = "Edit Profile"
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
+        auth = FirebaseAuth.getInstance()
+        db = FirebaseFirestore.getInstance()
+
+        val isFirebaseUser = intent.getBooleanExtra("isFirebaseUser", false)
+        val displayName = intent.getStringExtra("displayName") ?: "not set"
+        val email = intent.getStringExtra("email")
+        val photoUrl = intent.getStringExtra("photoUrl")
+        val fullName = intent.getStringExtra("fullName")
+        val birthday = intent.getStringExtra("birthday")
+        val location = intent.getStringExtra("location")
+
         // Set initial data
-        // Example data, this should be fetched from your data source
-        binding.fullNameEdit.setText("")
-        binding.emailEdit.setText("rudytabootie@gmail.com")
-        binding.birthdayEdit.setText("")
-        binding.locationEdit.setText("")
+        binding.fullNameEdit.setText(fullName)
+        binding.emailEdit.setText(email)
+        binding.birthdayEdit.setText(birthday)
+        binding.locationEdit.setText(location)
+
+        if (isFirebaseUser) {
+            binding.changePictureButton.visibility = View.GONE
+            Glide.with(this).load(photoUrl).into(binding.profilePictureEdit)
+        } else {
+            binding.changePictureButton.visibility = View.VISIBLE
+            binding.profilePictureEdit.setImageResource(R.drawable.ic_profile) // Default profile picture
+        }
 
         binding.changePictureButton.setOnClickListener {
             checkPermission()
@@ -50,7 +77,10 @@ class EditProfileActivity : AppCompatActivity() {
         }
 
         binding.saveButton.setOnClickListener {
-            Toast.makeText(this, "Profile Saved", Toast.LENGTH_SHORT).show()
+            saveProfile()
+            Toast.makeText(this, "Profile updated", Toast.LENGTH_SHORT).show()
+            setResult(Activity.RESULT_OK)
+            finish()
         }
     }
 
@@ -111,6 +141,39 @@ class EditProfileActivity : AppCompatActivity() {
             } else {
                 Toast.makeText(this, "Permission denied", Toast.LENGTH_SHORT).show()
             }
+        }
+    }
+
+    private fun saveProfile() {
+        val fullName = binding.fullNameEdit.text.toString()
+        val birthday = binding.birthdayEdit.text.toString()
+        val location = binding.locationEdit.text.toString()
+
+        val user = auth.currentUser
+        val userId = user?.uid
+
+        if (userId != null) {
+            val userProfile = hashMapOf(
+                "fullName" to fullName,
+                "birthday" to birthday,
+                "location" to location
+            )
+
+            db.collection("users").document(userId)
+                .set(userProfile)
+                .addOnSuccessListener {
+                    Log.d("EditProfileActivity", "Profile updated successfully")
+                    Toast.makeText(this, "Profile updated successfully", Toast.LENGTH_SHORT).show()
+                    setResult(Activity.RESULT_OK)
+                    finish()
+                }
+                .addOnFailureListener { e ->
+                    Log.e("EditProfileActivity", "Failed to update profile: ${e.message}")
+                    Toast.makeText(this, "Failed to update profile: ${e.message}", Toast.LENGTH_SHORT).show()
+                }
+        } else {
+            Log.e("EditProfileActivity", "User ID is null")
+            Toast.makeText(this, "Failed to update profile: User not logged in", Toast.LENGTH_SHORT).show()
         }
     }
 

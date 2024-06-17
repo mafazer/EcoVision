@@ -1,4 +1,4 @@
-package com.example.ecovision.ui
+package com.example.ecovision.ui.fragment
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
