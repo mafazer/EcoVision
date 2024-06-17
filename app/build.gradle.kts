@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    id("com.google.gms.google-services")
     id("kotlin-parcelize")
     alias(libs.plugins.google.android.libraries.mapsplatform.secrets.gradle.plugin)
 }
@@ -61,6 +62,13 @@ dependencies {
     implementation("androidx.preference:preference-ktx:1.2.1")
     implementation("androidx.datastore:datastore-preferences:1.1.1")
 
+    implementation(libs.play.services.auth)
+    implementation(platform("com.google.firebase:firebase-bom:33.1.0"))
+    implementation("com.google.firebase:firebase-analytics")
+    implementation(libs.firebase.auth)
+    implementation(libs.androidx.credentials)
+    implementation(libs.androidx.credentials.play.services.auth)
+
     implementation("com.github.denzcoskun:ImageSlideshow:0.1.0")
     implementation("de.hdodenhof:circleimageview:3.1.0")
 
@@ -70,6 +78,5 @@ dependencies {
     implementation(libs.androidx.camera.camera2)
     implementation(libs.camera.lifecycle)
     implementation(libs.camera.view)
-
 
 }
