@@ -1,4 +1,4 @@
-package com.example.ecovision
+package com.example.ecovision.data
 
 import java.util.*
 

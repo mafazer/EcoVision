@@ -98,11 +98,11 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/passwordEditText"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="66dp"
             android:ems="10"
+            android:hint="@string/password"
             android:inputType="textPassword"
-            tools:ignore="SpeakableTextPresentCheck"
-            android:hint="@string/password"/>
+            tools:ignore="SpeakableTextPresentCheck" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
@@ -113,7 +113,8 @@
         android:layout_marginTop="32dp"
         android:layout_marginEnd="32dp"
         android:text="@string/login"
-        android:background="@drawable/button_gradient"
+        android:textColor="@color/white"
+        android:background="@color/green"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/passwordEditTextLayout" />

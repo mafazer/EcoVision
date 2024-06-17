@@ -144,7 +144,8 @@
         android:layout_marginTop="32dp"
         android:layout_marginEnd="32dp"
         android:text="@string/register"
-        android:background="@drawable/button_gradient"
+        android:textColor="@color/white"
+        android:background="@color/green"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/passwordEditTextLayout" />

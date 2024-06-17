@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     app:layoutDescription="@xml/activity_guide_scene"
-    tools:context=".GuideActivity">
+    tools:context=".ui.GuideActivity">
 
     <ImageView
         android:id="@+id/logoMenu1"

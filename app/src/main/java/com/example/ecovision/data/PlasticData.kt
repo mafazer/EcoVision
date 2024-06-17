@@ -1,4 +1,6 @@
-package com.example.ecovision
+package com.example.ecovision.data
+
+import com.example.ecovision.R
 
 object PlasticData {
     val plasticTypes = listOf(

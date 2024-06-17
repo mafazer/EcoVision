@@ -1,22 +1,18 @@
-package com.example.ecovision
+package com.example.ecovision.ui
 
 import android.app.DatePickerDialog
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
-import android.widget.Button
-import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import de.hdodenhof.circleimageview.CircleImageView
 import java.util.Calendar
 import android.Manifest
 import android.os.Build
 import android.view.MenuItem
-import androidx.appcompat.widget.Toolbar
 import com.example.ecovision.databinding.ActivityEditProfileBinding
 
 class EditProfileActivity : AppCompatActivity() {
@@ -90,7 +86,8 @@ class EditProfileActivity : AppCompatActivity() {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_MEDIA_IMAGES)
                 != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(this,
-                    arrayOf(Manifest.permission.READ_MEDIA_IMAGES), REQUEST_CODE_STORAGE_PERMISSION)
+                    arrayOf(Manifest.permission.READ_MEDIA_IMAGES), REQUEST_CODE_STORAGE_PERMISSION
+                )
             } else {
                 openGallery()
             }
@@ -98,7 +95,8 @@ class EditProfileActivity : AppCompatActivity() {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(this,
-                    arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), REQUEST_CODE_STORAGE_PERMISSION)
+                    arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), REQUEST_CODE_STORAGE_PERMISSION
+                )
             } else {
                 openGallery()
             }

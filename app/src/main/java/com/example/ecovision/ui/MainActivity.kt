@@ -1,9 +1,10 @@
-package com.example.ecovision
+package com.example.ecovision.ui
 
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import com.example.ecovision.R
 import com.example.ecovision.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {

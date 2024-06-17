@@ -1,10 +1,11 @@
-package com.example.ecovision
+package com.example.ecovision.ui
 
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import com.denzcoskun.imageslider.constants.ScaleTypes
 import com.denzcoskun.imageslider.models.SlideModel
+import com.example.ecovision.data.PlasticType
 import com.example.ecovision.databinding.ActivityDetailPlasticBinding
 
 class DetailPlasticActivity : AppCompatActivity() {

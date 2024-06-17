@@ -1,30 +1,18 @@
-package com.example.ecovision
+package com.example.ecovision.ui
 
-import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.view.WindowInsets
 import android.view.WindowManager
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import com.example.ecovision.databinding.ActivityGuideBinding
+import com.example.ecovision.R
 
-class GuideActivity : AppCompatActivity() {
-
-    private lateinit var binding: ActivityGuideBinding
+class WelcomeActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityGuideBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        setContentView(R.layout.activity_welcome)
 
         setupView()
-
-        binding.button.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
-        }
     }
 
     private fun setupView() {
@@ -39,4 +27,5 @@ class GuideActivity : AppCompatActivity() {
         }
         supportActionBar?.hide()
     }
+
 }
