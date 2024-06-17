@@ -17,55 +17,43 @@ import android.Manifest
 import android.os.Build
 import android.view.MenuItem
 import androidx.appcompat.widget.Toolbar
+import com.example.ecovision.databinding.ActivityEditProfileBinding
 
 class EditProfileActivity : AppCompatActivity() {
 
-    private lateinit var profilePicture: CircleImageView
+    private lateinit var binding: ActivityEditProfileBinding
 
     private val pickImage = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
         uri?.let {
-            profilePicture.setImageURI(uri)
+            binding.profilePictureEdit.setImageURI(uri)
         }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_edit_profile)
+        binding = ActivityEditProfileBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        val toolbar = findViewById<Toolbar>(R.id.toolbar)
-        setSupportActionBar(toolbar)
+        setSupportActionBar(binding.toolbar)
         supportActionBar?.title = "Edit Profile"
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        // Initialize views
-        profilePicture = findViewById(R.id.profilePictureEdit)
-        val changePictureButton = findViewById<Button>(R.id.changePictureButton)
-        val fullNameEdit = findViewById<EditText>(R.id.fullNameEdit)
-        val emailEdit = findViewById<EditText>(R.id.emailEdit)
-        val birthdayEdit = findViewById<EditText>(R.id.birthdayEdit)
-        val locationEdit = findViewById<EditText>(R.id.locationEdit)
-        val saveButton = findViewById<Button>(R.id.saveButton)
-
         // Set initial data
         // Example data, this should be fetched from your data source
-        fullNameEdit.setText("")
-        emailEdit.setText("rudytabootie@gmail.com")
-        birthdayEdit.setText("")
-        locationEdit.setText("")
+        binding.fullNameEdit.setText("")
+        binding.emailEdit.setText("rudytabootie@gmail.com")
+        binding.birthdayEdit.setText("")
+        binding.locationEdit.setText("")
 
-        // Handle change picture button click
-        changePictureButton.setOnClickListener {
+        binding.changePictureButton.setOnClickListener {
             checkPermission()
         }
 
-        // Handle birthday edit text click to show date picker
-        birthdayEdit.setOnClickListener {
-            showDatePickerDialog(birthdayEdit)
+        binding.birthdayEdit.setOnClickListener {
+            showDatePickerDialog()
         }
 
-        // Handle save button click
-        saveButton.setOnClickListener {
-            // Handle save profile
+        binding.saveButton.setOnClickListener {
             Toast.makeText(this, "Profile Saved", Toast.LENGTH_SHORT).show()
         }
     }
@@ -73,7 +61,7 @@ class EditProfileActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             android.R.id.home -> {
-                onBackPressedDispatcher.onBackPressed()  // This will navigate back to the previous fragment
+                onBackPressedDispatcher.onBackPressed()
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -84,14 +72,14 @@ class EditProfileActivity : AppCompatActivity() {
         pickImage.launch("image/*")
     }
 
-    private fun showDatePickerDialog(editText: EditText) {
+    private fun showDatePickerDialog() {
         val calendar = Calendar.getInstance()
         val year = calendar.get(Calendar.YEAR)
         val month = calendar.get(Calendar.MONTH)
         val day = calendar.get(Calendar.DAY_OF_MONTH)
 
         val datePickerDialog = DatePickerDialog(this, { _, selectedYear, selectedMonth, selectedDay ->
-            editText.setText("${selectedDay}/${selectedMonth + 1}/${selectedYear}")
+            binding.birthdayEdit.setText("${selectedDay}/${selectedMonth + 1}/${selectedYear}")
         }, year, month, day)
 
         datePickerDialog.show()
