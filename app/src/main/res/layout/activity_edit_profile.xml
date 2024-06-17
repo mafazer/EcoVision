@@ -49,13 +49,13 @@
                     android:layout_marginBottom="16dp"
                     android:scaleType="centerCrop"
                     android:src="@drawable/ic_profile"
-                    android:contentDescription="Profile Picture" />
+                    android:contentDescription="@string/profile_picture" />
 
                 <Button
                     android:id="@+id/changePictureButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Change Picture"
+                    android:text="@string/change_picture"
                     android:textColor="@color/white"
                     android:layout_marginBottom="24dp"
                     android:backgroundTint="#0d8f29" />
@@ -66,7 +66,7 @@
                     android:layout_height="wrap_content"
                     android:textColor="@color/black"
                     android:layout_marginBottom="16dp"
-                    android:hint="Nama lengkap"
+                    android:hint="@string/full_name"
                     android:textColorHint="@color/light_black_2"
                     android:inputType="textPersonName" />
 
@@ -76,7 +76,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
                     android:enabled="false"
-                    android:hint="Email"
+                    android:hint="@string/email"
                     android:inputType="textEmailAddress"
                     android:textColor="@color/black" />
 
@@ -90,7 +90,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textColor="@color/black"
-                        android:hint="Tanggal lahir"
+                        android:hint="@string/dob"
                         android:textColorHint="@color/light_black_2"
                         android:focusable="false"
                         android:clickable="true"
@@ -103,7 +103,7 @@
                         android:layout_gravity="end|center_vertical"
                         android:layout_marginEnd="8dp"
                         android:src="@drawable/ic_date"
-                        android:contentDescription="Select Date" />
+                        android:contentDescription="@string/select_date" />
                 </FrameLayout>
 
                 <EditText
@@ -111,7 +111,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColor="@color/black"
-                    android:hint="Domisili"
+                    android:hint="@string/domicile"
                     android:textColorHint="@color/light_black_2"
                     android:inputType="text"
                     android:layout_marginBottom="24dp" />
@@ -120,7 +120,7 @@
                     android:id="@+id/saveButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Save"
+                    android:text="@string/save"
                     android:backgroundTint="#0d8f29"
                     android:textColor="@android:color/white" />
             </LinearLayout>

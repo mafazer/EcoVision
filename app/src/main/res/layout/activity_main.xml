@@ -39,7 +39,7 @@
         android:layout_height="wrap_content"
         android:src="@drawable/ic_scan"
         app:layout_anchor="@id/bottomAppBar"
-        android:contentDescription="Tombol Scan"/>
+        android:contentDescription="@string/scan_button"/>
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

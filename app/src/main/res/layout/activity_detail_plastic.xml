@@ -36,7 +36,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@drawable/roundstyle"
-                    android:contentDescription="plastic image"
+                    android:contentDescription="@string/plastic_image"
                     android:scaleType="centerCrop"
                     app:shapeAppearanceOverlay="@style/RoundedCorners"
                     tools:src="@drawable/pet_image" />
@@ -58,7 +58,7 @@
                         android:layout_height="32dp"
                         android:layout_marginStart="8dp"
                         android:layout_gravity="center"
-                        android:contentDescription="recycling symbol"
+                        android:contentDescription="@string/recycling_symbol"
                         tools:src="@drawable/ic_pet" />
 
                     <TextView
@@ -68,7 +68,7 @@
                         android:layout_marginStart="8dp"
                         android:layout_marginEnd="8dp"
                         android:layout_marginTop="6dp"
-                        android:text="Jenis Plastik"
+                        android:text="@string/plastic_type"
                         android:textColor="@color/black"
                         android:textSize="24sp"
                         android:textStyle="bold" />
@@ -80,7 +80,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="Deskripsi Plastik"
+                android:text="@string/plastic_description"
                 android:textColor="@android:color/black"
                 android:textSize="16sp" />
 
@@ -89,7 +89,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="Cara Daur Ulang"
+                android:text="@string/recycling_tips"
                 android:textColor="@color/green"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -99,7 +99,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="Proses daur ulang plastik."
+                android:text="@string/recycling_tips_desc"
                 android:textColor="@color/green"
                 android:textSize="16sp" />
 
@@ -108,7 +108,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="Bahaya bagi Lingkungan"
+                android:text="@string/env_effect"
                 android:textColor="#6C0000"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -118,7 +118,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="Dampak lingkungan dari plastik."
+                android:text="@string/env_effect_desc"
                 android:textColor="#6C0000"
                 android:textSize="16sp" />
 
@@ -127,7 +127,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="Contoh Benda"
+                android:text="@string/example_image"
                 android:textColor="@android:color/black"
                 android:textSize="18sp"
                 android:textStyle="bold" />
