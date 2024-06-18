@@ -7,11 +7,11 @@
     <string name="loginview">LOGIN</string>
     <string name="login">Login</string>
     <string name="atau">Atau</string>
-    <string name="buatakun">Belum Ada Akun? Daftar Sekarang</string>
+    <string name="buatakun">Belum Ada Akun?\nDaftar Sekarang</string>
     <string name="registerview">REGISTER</string>
     <string name="register">Register</string>
     <string name="name">Nama</string>
-    <string name="sudahakun">Sudah Ada Akun? Masuk Sekarang</string>
+    <string name="sudahakun">Sudah Ada Akun?\nMasuk Sekarang</string>
 
     <string name="title_menu_1">Selamat Datang di ecoVision</string>
     <string name="title_menu_2">Deteksi Sampah Plastik</string>
@@ -56,4 +56,6 @@
     <string name="tips_of_the_day">Tips of the day</string>
     <string name="tips_description">Hindari penggunaan plastik sekali pakai untuk menjaga lingkungan.</string>
     <string name="history_preview_home">Sampah plastik yang terakhir kamu pindai</string>
+    <string name="upload">Upload</string>
+    <string name="gpu">GPU</string>
 </resources>

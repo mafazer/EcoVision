@@ -11,6 +11,7 @@ data class PlasticType(
     val recyclingCode: String,
     val description: String,
     val recyclingProcess: String,
+    val recyclingProcessTwo: String,
     val environmentalImpact: String,
     val examples: List<Int>  // Resource ID untuk contoh gambar
 ) : Parcelable

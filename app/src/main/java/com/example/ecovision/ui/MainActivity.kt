@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity() {
 
         val username = intent.getStringExtra("username")
         if (username != null && username.isNotEmpty()) {
-            Toast.makeText(this, "Welcome $username", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Login sukses", Toast.LENGTH_SHORT).show()
         }
 
         binding.bottomNavigationView.menu.getItem(2).isEnabled = false

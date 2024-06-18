@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.ecovision.data.TipsData
 import com.example.ecovision.databinding.FragmentHomeBinding
+import com.example.ecovision.ui.GuideActivity
 import com.example.ecovision.ui.MapsActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -39,7 +40,7 @@ class HomeFragment : Fragment() {
         binding.textViewTitle.text = "Halo,\n$displayName"
 
         binding.imageViewQuestionMark.setOnClickListener {
-            val intent = Intent(requireContext(), MapsActivity::class.java)
+            val intent = Intent(requireContext(), GuideActivity::class.java)
             startActivity(intent)
         }
 

@@ -11,13 +11,11 @@
     <ImageView
         android:layout_width="250dp"
         android:layout_height="250dp"
-        android:background="@drawable/splash_ecovision"
+        android:src="@drawable/splash_ecovision"
         android:contentDescription="@string/splash_image"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-    </ImageView>
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
