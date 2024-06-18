@@ -84,8 +84,8 @@ class ProfileFragment : Fragment() {
         binding.email.text = firebaseUser?.email ?: "Email not set"
 
         val userId = firebaseUser?.uid
-        userId?.let {
-            db.collection("users").document(it).get()
+        if (userId != null) {
+            db.collection("users").document(userId).get()
                 .addOnSuccessListener { document ->
                     if (document != null) {
                         val fullName = document.getString("fullName") ?: "not set"
@@ -101,11 +101,15 @@ class ProfileFragment : Fragment() {
                 .addOnFailureListener { exception ->
                     Log.e("ProfileFragment", "Error getting profile data: ${exception.message}")
                     binding.progressBar.visibility = View.GONE
+                    binding.cardViewProfile.visibility = View.VISIBLE
                 }
 
             firebaseUser.photoUrl?.let { photoUrl ->
                 Glide.with(this).load(photoUrl).into(binding.profilePicture)
             }
+        } else {
+            binding.progressBar.visibility = View.GONE
+            binding.cardViewProfile.visibility = View.VISIBLE
         }
     }
 
@@ -125,7 +129,6 @@ class ProfileFragment : Fragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQUEST_CODE_EDIT_PROFILE && resultCode == Activity.RESULT_OK) {
-            // Refresh profile data
             updateProfileData()
         }
     }

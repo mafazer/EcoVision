@@ -52,7 +52,7 @@
     <string name="scan_to_add_history">Mulai scan untuk\n menambahkan history</string>
     <string name="hello_home">Halo, \nRudytabootie</string>
     <string name="go_to_guide">Go to guide page</string>
-    <string name="amount_scanned">Minggu ini kamu sudah 15 kali melakukan pemindaian sampah plastik!</string>
+    <string name="amount_scanned">Mantap! total kamu sudah %1$d kali melakukan pemindaian sampah plastik!</string>
     <string name="no_scans_yet">Kamu belum nyoba fiturnya nih, ayo mulai pemindaian pertamamu!</string>
     <string name="tips_of_the_day">Tips of the day</string>
     <string name="tips_description">Hindari penggunaan plastik sekali pakai untuk menjaga lingkungan.</string>
@@ -60,4 +60,5 @@
     <string name="upload">Upload</string>
     <string name="gpu">GPU</string>
     <string name="back_home">Balik ke home</string>
+    <string name="welcome_sign">Halo,\n%1$s</string>
 </resources>

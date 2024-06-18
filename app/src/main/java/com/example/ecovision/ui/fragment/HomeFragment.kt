@@ -15,7 +15,6 @@ import com.example.ecovision.data.local.HistoryEntity
 import com.example.ecovision.data.local.HistoryRepository
 import com.example.ecovision.databinding.FragmentHomeBinding
 import com.example.ecovision.ui.GuideActivity
-import com.example.ecovision.ui.MapsActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -36,7 +35,7 @@ class HomeFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -48,7 +47,7 @@ class HomeFragment : Fragment() {
         val firebaseUser = auth.currentUser
         val displayName = firebaseUser?.displayName ?: "User"
 
-        binding.textViewTitle.text = "Halo,\n$displayName"
+        binding.textViewTitle.text = getString(R.string.welcome_sign, displayName)
 
         binding.imageViewQuestionMark.setOnClickListener {
             val intent = Intent(requireContext(), GuideActivity::class.java)
@@ -76,8 +75,8 @@ class HomeFragment : Fragment() {
 
     private fun loadHistory() {
         lifecycleScope.launch(Dispatchers.IO) {
-            val historyList = historyRepository.getLimitedHistoryItems(3) // Batasi 3 item
-            val totalScans = historyRepository.getAllHistoryItems().size // Jumlah total pemindaian
+            val historyList = historyRepository.getLimitedHistoryItems(3)
+            val totalScans = historyRepository.getAllHistoryItems().size
             withContext(Dispatchers.Main) {
                 historyAdapter.updateData(historyList)
                 updateScanCount(totalScans)
@@ -88,9 +87,9 @@ class HomeFragment : Fragment() {
 
     private fun updateScanCount(totalScans: Int) {
         binding.textViewProgress.text = if (totalScans > 0) {
-            "Mantap! total kamu sudah $totalScans kali melakukan pemindaian sampah plastik!"
+            getString(R.string.amount_scanned, totalScans)
         } else {
-            "Kamu belum nyoba fiturnya nih, ayo mulai pemindaian pertamamu!"
+            getString(R.string.no_scans_yet)
         }
     }
 

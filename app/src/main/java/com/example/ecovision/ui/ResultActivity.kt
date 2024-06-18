@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.location.LocationManager
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.widget.LinearLayout
@@ -36,7 +37,12 @@ class ResultActivity : AppCompatActivity() {
 
         historyRepository = HistoryRepository(this)
 
-        val plasticType = intent.getParcelableExtra<PlasticType>(EXTRA_PLASTIC_TYPE)
+        val plasticType = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            intent.getParcelableExtra(EXTRA_PLASTIC_TYPE, PlasticType::class.java)
+        } else {
+            @Suppress("DEPRECATION")
+            intent.getParcelableExtra(EXTRA_PLASTIC_TYPE)
+        }
         val date = intent.getStringExtra(EXTRA_DATE)
         val description = intent.getStringExtra(EXTRA_DESCRIPTION) ?: "limbah plastik"
 
@@ -59,10 +65,15 @@ class ResultActivity : AppCompatActivity() {
         bottomSheetBehavior = BottomSheetBehavior.from(bottomSheetBinding.root)
 
         bottomSheetBinding.learnMoreButton.setOnClickListener {
-            val plasticType = intent.getParcelableExtra<PlasticType>(EXTRA_PLASTIC_TYPE)
-            if (plasticType != null) {
+            val plasticTypeDetail = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                intent.getParcelableExtra(EXTRA_PLASTIC_TYPE, PlasticType::class.java)
+            } else {
+                @Suppress("DEPRECATION")
+                intent.getParcelableExtra(EXTRA_PLASTIC_TYPE)
+            }
+            if (plasticTypeDetail != null) {
                 val intent = Intent(this, DetailPlasticActivity::class.java)
-                intent.putExtra("plastic_type", plasticType)
+                intent.putExtra("plastic_type", plasticTypeDetail)
                 startActivity(intent)
             }
         }

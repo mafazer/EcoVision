@@ -36,6 +36,7 @@
         app:layout_constraintTop_toTopOf="@+id/guidelineHorizontal2"
         android:text="@string/registerview"
         android:textSize="24sp"
+        android:textColor="@color/black"
         android:padding="16dp"
         app:layout_constraintVertical_chainStyle="packed"
         android:gravity="center"/>

@@ -54,7 +54,7 @@ class ScanActivity : AppCompatActivity(), Detector.DetectorListener {
         setContentView(binding.root)
 
         val decorView = window.decorView
-        val windowInsetsController = ViewCompat.getWindowInsetsController(decorView)
+        @Suppress("DEPRECATION") val windowInsetsController = ViewCompat.getWindowInsetsController(decorView)
 
         windowInsetsController?.let {
             it.hide(WindowInsetsCompat.Type.systemBars())
@@ -117,6 +117,7 @@ class ScanActivity : AppCompatActivity(), Detector.DetectorListener {
 
 
 
+    @Suppress("DEPRECATION")
     private fun bindCameraUseCases() {
         val cameraProvider = cameraProvider ?: throw IllegalStateException("Camera initialization failed.")
 
@@ -240,7 +241,7 @@ class ScanActivity : AppCompatActivity(), Detector.DetectorListener {
 
 
     override fun onBackPressed() {
-        super.onBackPressed()
+        super.onBackPressedDispatcher.onBackPressed()
         detector.clear()
         cameraExecutor.shutdown()
         finish()
