@@ -85,7 +85,7 @@ class ScanActivity : AppCompatActivity(), Detector.DetectorListener {
         captureImage(description, codeResult)
     }
 
-    private fun captureImage(description: String, codeResult: Int) {
+    private fun captureImage(description: String?, codeResult: Int) {
         val outputOptions = ImageCapture.OutputFileOptions.Builder(File(externalMediaDirs.first(), "${System.currentTimeMillis()}.jpg")).build()
 
         imageCapture.takePicture(
@@ -96,11 +96,9 @@ class ScanActivity : AppCompatActivity(), Detector.DetectorListener {
                     val savedUri = outputFileResults.savedUri
                     if (savedUri != null) {
                         val plasticType = PlasticData.plasticTypes.find { it.name == description }
-                        val currentDate = SimpleDateFormat("dd MMMM yyyy", Locale.getDefault()).format(
-                            Date()
-                        )
+                        val currentDate = SimpleDateFormat("dd MMMM yyyy", Locale.getDefault()).format(Date())
                         val intent = Intent(this@ScanActivity, ResultActivity::class.java).apply {
-                            putExtra(ResultActivity.EXTRA_DESCRIPTION, description)
+                            putExtra(ResultActivity.EXTRA_DESCRIPTION, description ?: "limbah plastik")
                             putExtra(ResultActivity.CODE_RESULT, codeResult)
                             putExtra(ResultActivity.EXTRA_IMAGE_URI, savedUri.toString())
                             putExtra(ResultActivity.EXTRA_PLASTIC_TYPE, plasticType)
@@ -116,6 +114,8 @@ class ScanActivity : AppCompatActivity(), Detector.DetectorListener {
             }
         )
     }
+
+
 
     private fun bindCameraUseCases() {
         val cameraProvider = cameraProvider ?: throw IllegalStateException("Camera initialization failed.")

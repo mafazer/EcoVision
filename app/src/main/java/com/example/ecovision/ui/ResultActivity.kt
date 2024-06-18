@@ -9,16 +9,22 @@ import android.provider.Settings
 import android.widget.LinearLayout
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import com.example.ecovision.data.PlasticType
+import com.example.ecovision.data.local.HistoryEntity
+import com.example.ecovision.data.local.HistoryRepository
 import com.example.ecovision.databinding.ActivityResultBinding
 import com.example.ecovision.databinding.BottomSheetResultBinding
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class ResultActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityResultBinding
     private lateinit var bottomSheetBinding: BottomSheetResultBinding
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<LinearLayout>
+    private lateinit var historyRepository: HistoryRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,14 +34,16 @@ class ResultActivity : AppCompatActivity() {
         setSupportActionBar(binding.toolbar)
         supportActionBar?.title = "Hasil Scan"
 
+        historyRepository = HistoryRepository(this)
+
         val plasticType = intent.getParcelableExtra<PlasticType>(EXTRA_PLASTIC_TYPE)
         val date = intent.getStringExtra(EXTRA_DATE)
+        val description = intent.getStringExtra(EXTRA_DESCRIPTION) ?: "limbah plastik"
 
         if (plasticType != null) {
             binding.plasticTypeValueTextView.text = plasticType.name
             binding.recyclingTipsValueTextView.text = plasticType.recyclingProcess
             binding.recyclingTipsValueTextView2.text = plasticType.recyclingProcessTwo
-            // Set other fields based on plasticType data
         }
 
         val imageUri = intent.getStringExtra(EXTRA_IMAGE_URI)
@@ -67,6 +75,9 @@ class ResultActivity : AppCompatActivity() {
                 showLocationEnableDialog()
             }
         }
+
+        // Save to history
+        saveToHistory(date, imageUri, description, plasticType?.name ?: "Other")
     }
 
     private fun isLocationEnabled(): Boolean {
@@ -88,6 +99,13 @@ class ResultActivity : AppCompatActivity() {
                 dialog.dismiss()
             }
             .show()
+    }
+
+    private fun saveToHistory(date: String?, imageUri: String?, description: String, category: String) {
+        val historyItem = HistoryEntity(date = date ?: "", imageUri = imageUri ?: "", description = description, category = category)
+        lifecycleScope.launch(Dispatchers.IO) {
+            historyRepository.addHistoryItem(historyItem)
+        }
     }
 
     companion object {
