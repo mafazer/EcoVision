@@ -77,6 +77,9 @@ class ProfileFragment : Fragment() {
 
     private fun updateProfileData() {
         val firebaseUser = auth.currentUser
+        binding.progressBar.visibility = View.VISIBLE
+        binding.cardViewProfile.visibility = View.GONE
+
         binding.username.text = firebaseUser?.displayName ?: "Username not set"
         binding.email.text = firebaseUser?.email ?: "Email not set"
 
@@ -92,9 +95,12 @@ class ProfileFragment : Fragment() {
                         binding.birthday.text = birthday
                         binding.location.text = location
                     }
+                    binding.progressBar.visibility = View.GONE
+                    binding.cardViewProfile.visibility = View.VISIBLE
                 }
                 .addOnFailureListener { exception ->
                     Log.e("ProfileFragment", "Error getting profile data: ${exception.message}")
+                    binding.progressBar.visibility = View.GONE
                 }
 
             firebaseUser.photoUrl?.let { photoUrl ->

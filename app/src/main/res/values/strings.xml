@@ -41,7 +41,7 @@
     <string name="save">Save</string>
     <string name="scan_button">Scan button for detecting plastic</string>
     <string name="learn_more">Pelajari lebih lanjut</string>
-    <string name="maps_button">Lihat Peta Daur Ulang</string>
+    <string name="maps_button">Lihat peta daur ulang</string>
     <string name="probability">85%</string>
     <string name="plastic_waste_type">Jenis limbah plastik</string>
     <string name="plastic_waste">Other</string>
@@ -59,4 +59,5 @@
     <string name="history_preview_home">Sampah plastik yang terakhir kamu pindai</string>
     <string name="upload">Upload</string>
     <string name="gpu">GPU</string>
+    <string name="back_home">Balik ke home</string>
 </resources>

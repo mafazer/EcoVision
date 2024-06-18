@@ -25,4 +25,16 @@ class HistoryRepository(context: Context) {
             historyDao.getLimitedHistoryItems(limit)
         }
     }
+
+    suspend fun deleteHistoryItem(historyItem: HistoryEntity) {
+        withContext(Dispatchers.IO) {
+            historyDao.deleteHistoryItem(historyItem.id)
+        }
+    }
+
+    suspend fun updateHistoryDescription(historyItem: HistoryEntity, newDescription: String) {
+        withContext(Dispatchers.IO) {
+            historyDao.updateHistoryDescription(historyItem.id, newDescription)
+        }
+    }
 }

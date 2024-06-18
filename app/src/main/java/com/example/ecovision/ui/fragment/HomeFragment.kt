@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.ecovision.R
 import com.example.ecovision.adapter.HistoryAdapter
 import com.example.ecovision.data.TipsData
+import com.example.ecovision.data.local.HistoryEntity
 import com.example.ecovision.data.local.HistoryRepository
 import com.example.ecovision.databinding.FragmentHomeBinding
 import com.example.ecovision.ui.GuideActivity
@@ -62,24 +63,64 @@ class HomeFragment : Fragment() {
 
         val recyclerView = binding.rvRecentHistory
         recyclerView.layoutManager = LinearLayoutManager(context)
-        historyAdapter = HistoryAdapter(emptyList())
+        historyAdapter = HistoryAdapter(emptyList(), ::onDeleteHistory, ::onChangeDescription)
         recyclerView.adapter = historyAdapter
 
+        loadHistory()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        loadHistory()
+    }
+
+    private fun loadHistory() {
         lifecycleScope.launch(Dispatchers.IO) {
             val historyList = historyRepository.getLimitedHistoryItems(3) // Batasi 3 item
             val totalScans = historyRepository.getAllHistoryItems().size // Jumlah total pemindaian
             withContext(Dispatchers.Main) {
                 historyAdapter.updateData(historyList)
                 updateScanCount(totalScans)
+                updateVisibility(totalScans)
             }
         }
     }
 
     private fun updateScanCount(totalScans: Int) {
         binding.textViewProgress.text = if (totalScans > 0) {
-            "Mantapp, total kamu sudah $totalScans kali melakukan pemindaian sampah plastik!"
+            "Mantap! total kamu sudah $totalScans kali melakukan pemindaian sampah plastik!"
         } else {
             "Kamu belum nyoba fiturnya nih, ayo mulai pemindaian pertamamu!"
+        }
+    }
+
+    private fun updateVisibility(totalScans: Int) {
+        if (totalScans > 0) {
+            binding.textViewScannedTitle.visibility = View.VISIBLE
+            binding.rvRecentHistory.visibility = View.VISIBLE
+        } else {
+            binding.textViewScannedTitle.visibility = View.GONE
+            binding.rvRecentHistory.visibility = View.GONE
+        }
+    }
+
+    private fun onDeleteHistory(historyItem: HistoryEntity) {
+        lifecycleScope.launch(Dispatchers.IO) {
+            historyRepository.deleteHistoryItem(historyItem)
+            val updatedList = historyRepository.getLimitedHistoryItems(3)
+            withContext(Dispatchers.Main) {
+                historyAdapter.updateData(updatedList)
+            }
+        }
+    }
+
+    private fun onChangeDescription(historyItem: HistoryEntity, newDescription: String) {
+        lifecycleScope.launch(Dispatchers.IO) {
+            historyRepository.updateHistoryDescription(historyItem, newDescription)
+            val updatedList = historyRepository.getLimitedHistoryItems(3)
+            withContext(Dispatchers.Main) {
+                historyAdapter.updateData(updatedList)
+            }
         }
     }
 
