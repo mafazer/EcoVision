@@ -78,9 +78,6 @@ class EditProfileActivity : AppCompatActivity() {
 
         binding.saveButton.setOnClickListener {
             saveProfile()
-            Toast.makeText(this, "Profile updated", Toast.LENGTH_SHORT).show()
-            setResult(Activity.RESULT_OK)
-            finish()
         }
     }
 

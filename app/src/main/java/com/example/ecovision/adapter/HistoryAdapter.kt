@@ -50,7 +50,7 @@ class HistoryAdapter(
         private val tvDescription: TextView = itemView.findViewById(R.id.tvDescription)
         private val tvCategory: TextView = itemView.findViewById(R.id.tvCategory)
         private val ivPhoto: ImageView = itemView.findViewById(R.id.ivPhoto)
-        private val ivOption: ImageView = itemView.findViewById(R.id.ivOptions) // Add this line
+        private val ivOption: ImageView = itemView.findViewById(R.id.ivOptions)
 
         init {
             itemView.setOnClickListener {
@@ -82,13 +82,11 @@ class HistoryAdapter(
                 .into(ivPhoto)
 
             ivOption.setOnClickListener {
-                // Show a bottom sheet or dialog with options
                 showOptionsDialog(historyItem)
             }
         }
 
         private fun showOptionsDialog(historyItem: HistoryEntity) {
-            // Create and show a dialog with options (Delete and Change Description)
             val optionsDialog = BottomSheetDialog(itemView.context)
             val dialogView = LayoutInflater.from(itemView.context).inflate(R.layout.bottom_sheet_history, null)
             optionsDialog.setContentView(dialogView)

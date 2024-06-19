@@ -101,7 +101,6 @@ class ResultActivity : AppCompatActivity() {
             finish()
         }
 
-        // Save to history
         saveToHistory(date, imageUri, description, plasticType?.name ?: "Other")
     }
 

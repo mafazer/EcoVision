@@ -54,7 +54,20 @@ class HistoryFragment : Fragment() {
             val historyList = historyRepository.getAllHistoryItems()
             withContext(Dispatchers.Main) {
                 historyAdapter.updateData(historyList)
+                updateEmptyView(historyList.isEmpty())
             }
+        }
+    }
+
+    private fun updateEmptyView(isEmpty: Boolean) {
+        if (isEmpty) {
+            binding.imageViewEmpty.visibility = View.VISIBLE
+            binding.textViewEmpty.visibility = View.VISIBLE
+            binding.rvRecentHistory.visibility = View.GONE
+        } else {
+            binding.imageViewEmpty.visibility = View.GONE
+            binding.textViewEmpty.visibility = View.GONE
+            binding.rvRecentHistory.visibility = View.VISIBLE
         }
     }
 
@@ -64,6 +77,7 @@ class HistoryFragment : Fragment() {
             val updatedList = historyRepository.getAllHistoryItems()
             withContext(Dispatchers.Main) {
                 historyAdapter.updateData(updatedList)
+                updateEmptyView(updatedList.isEmpty())
             }
         }
     }
@@ -74,6 +88,7 @@ class HistoryFragment : Fragment() {
             val updatedList = historyRepository.getAllHistoryItems()
             withContext(Dispatchers.Main) {
                 historyAdapter.updateData(updatedList)
+                updateEmptyView(updatedList.isEmpty())
             }
         }
     }
