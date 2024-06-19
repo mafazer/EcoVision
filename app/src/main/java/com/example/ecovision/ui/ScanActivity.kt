@@ -7,6 +7,7 @@ import android.graphics.Bitmap
 import android.graphics.Matrix
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.AspectRatio
@@ -36,6 +37,7 @@ import java.util.Locale
 
 
 class ScanActivity : AppCompatActivity(), Detector.DetectorListener {
+
     private lateinit var binding: ActivityScanBinding
     private val isFrontCamera = false
 
@@ -82,6 +84,7 @@ class ScanActivity : AppCompatActivity(), Detector.DetectorListener {
     }
 
     fun onBoundingBoxClicked(description: String, codeResult: Int) {
+        binding.progressBar.visibility = View.VISIBLE
         captureImage(description, codeResult)
     }
 
@@ -106,16 +109,16 @@ class ScanActivity : AppCompatActivity(), Detector.DetectorListener {
                         }
                         startActivity(intent)
                     }
+                    binding.progressBar.visibility = View.GONE
                 }
 
                 override fun onError(exception: ImageCaptureException) {
                     Log.e(TAG, "Image capture failed: ${exception.message}", exception)
+                    binding.progressBar.visibility = View.GONE
                 }
             }
         )
     }
-
-
 
     @Suppress("DEPRECATION")
     private fun bindCameraUseCases() {
@@ -197,9 +200,10 @@ class ScanActivity : AppCompatActivity(), Detector.DetectorListener {
         ContextCompat.checkSelfPermission(baseContext, it) == PackageManager.PERMISSION_GRANTED
     }
 
-    private val requestPermissionLauncher = registerForActivityResult(
-        ActivityResultContracts.RequestMultiplePermissions()) {
-        if (it[Manifest.permission.CAMERA] == true) { startCamera() }
+    private val requestPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
+        if (permissions[Manifest.permission.CAMERA] == true) {
+            startCamera()
+        }
     }
 
     override fun onDestroy() {
@@ -210,19 +214,11 @@ class ScanActivity : AppCompatActivity(), Detector.DetectorListener {
 
     override fun onResume() {
         super.onResume()
-        if (allPermissionsGranted()){
+        if (allPermissionsGranted()) {
             startCamera()
         } else {
             requestPermissionLauncher.launch(REQUIRED_PERMISSIONS)
         }
-    }
-
-    companion object {
-        private const val TAG = "Camera"
-        private const val REQUEST_CODE_PERMISSIONS = 10
-        private val REQUIRED_PERMISSIONS = mutableListOf (
-            Manifest.permission.CAMERA
-        ).toTypedArray()
     }
 
     override fun onEmptyDetect() {
@@ -239,11 +235,16 @@ class ScanActivity : AppCompatActivity(), Detector.DetectorListener {
         }
     }
 
-
     override fun onBackPressed() {
         super.onBackPressedDispatcher.onBackPressed()
         detector.clear()
         cameraExecutor.shutdown()
         finish()
+    }
+
+    companion object {
+        private const val TAG = "Camera"
+        private const val REQUEST_CODE_PERMISSIONS = 10
+        private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.CAMERA)
     }
 }

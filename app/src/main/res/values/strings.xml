@@ -41,7 +41,7 @@
     <string name="save">Save</string>
     <string name="scan_button">Scan button for detecting plastic</string>
     <string name="learn_more">Pelajari lebih lanjut</string>
-    <string name="maps_button">Lihat peta daur ulang</string>
+    <string name="maps_button">Lihat lokasi daur ulang</string>
     <string name="probability">85%</string>
     <string name="plastic_waste_type">Jenis limbah plastik</string>
     <string name="plastic_waste">Other</string>
@@ -52,7 +52,7 @@
     <string name="scan_to_add_history">Mulai scan untuk\n menambahkan history</string>
     <string name="hello_home">Halo, \nRudytabootie</string>
     <string name="go_to_guide">Go to guide page</string>
-    <string name="amount_scanned">Mantap! total kamu sudah %1$d kali melakukan pemindaian sampah plastik!</string>
+    <string name="amount_scanned">Total kamu sudah %1$d kali melakukan pemindaian sampah plastik! Mantap!</string>
     <string name="no_scans_yet">Kamu belum nyoba fiturnya nih, ayo mulai pemindaian pertamamu!</string>
     <string name="tips_of_the_day">Tips of the day</string>
     <string name="tips_description">Hindari penggunaan plastik sekali pakai untuk menjaga lingkungan.</string>
@@ -61,4 +61,7 @@
     <string name="gpu">GPU</string>
     <string name="back_home">Balik ke home</string>
     <string name="welcome_sign">Halo,\n%1$s</string>
+    <string name="scan_again">Scan lagi</string>
+    <string name="scan_again_desc">Scan the plastic again</string>
+    <string name="date">17 Juni 2024</string>
 </resources>

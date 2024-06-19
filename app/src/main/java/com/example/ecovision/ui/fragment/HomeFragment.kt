@@ -14,6 +14,7 @@ import com.example.ecovision.data.TipsData
 import com.example.ecovision.data.local.HistoryEntity
 import com.example.ecovision.data.local.HistoryRepository
 import com.example.ecovision.databinding.FragmentHomeBinding
+import com.example.ecovision.ui.DetailHistoryActivity
 import com.example.ecovision.ui.GuideActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -62,7 +63,7 @@ class HomeFragment : Fragment() {
 
         val recyclerView = binding.rvRecentHistory
         recyclerView.layoutManager = LinearLayoutManager(context)
-        historyAdapter = HistoryAdapter(emptyList(), ::onDeleteHistory, ::onChangeDescription)
+        historyAdapter = HistoryAdapter(emptyList(), ::onDeleteHistory, ::onChangeDescription, ::onHistoryItemClick)
         recyclerView.adapter = historyAdapter
 
         loadHistory()
@@ -121,6 +122,16 @@ class HomeFragment : Fragment() {
                 historyAdapter.updateData(updatedList)
             }
         }
+    }
+
+    private fun onHistoryItemClick(historyItem: HistoryEntity) {
+        val intent = Intent(requireContext(), DetailHistoryActivity::class.java).apply {
+            putExtra(DetailHistoryActivity.EXTRA_DESCRIPTION, historyItem.description)
+            putExtra(DetailHistoryActivity.EXTRA_IMAGE_URI, historyItem.imageUri)
+            putExtra(DetailHistoryActivity.EXTRA_PLASTIC_TYPE, historyItem.category)
+            putExtra(DetailHistoryActivity.EXTRA_DATE, historyItem.date)
+        }
+        startActivity(intent)
     }
 
     override fun onDestroyView() {

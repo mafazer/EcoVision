@@ -1,9 +1,5 @@
 package com.example.ecovision.adapter
 
-import android.content.Context
-import android.net.Uri
-import android.os.Handler
-import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,7 +21,8 @@ import java.util.Locale
 class HistoryAdapter(
     private var historyList: List<HistoryEntity>,
     private val onDeleteHistory: (HistoryEntity) -> Unit,
-    private val onChangeDescription: (HistoryEntity, String) -> Unit
+    private val onChangeDescription: (HistoryEntity, String) -> Unit,
+    private val onHistoryItemClick: (HistoryEntity) -> Unit
 ) : RecyclerView.Adapter<HistoryAdapter.HistoryViewHolder>() {
 
     fun updateData(newHistoryList: List<HistoryEntity>) {
@@ -54,6 +51,16 @@ class HistoryAdapter(
         private val tvCategory: TextView = itemView.findViewById(R.id.tvCategory)
         private val ivPhoto: ImageView = itemView.findViewById(R.id.ivPhoto)
         private val ivOption: ImageView = itemView.findViewById(R.id.ivOptions) // Add this line
+
+        init {
+            itemView.setOnClickListener {
+                val position = adapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    val historyItem = historyList[position]
+                    onHistoryItemClick(historyItem)
+                }
+            }
+        }
 
         fun bind(historyItem: HistoryEntity) {
             CoroutineScope(Dispatchers.IO).launch {

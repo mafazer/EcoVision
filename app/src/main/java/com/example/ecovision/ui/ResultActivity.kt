@@ -43,6 +43,7 @@ class ResultActivity : AppCompatActivity() {
             @Suppress("DEPRECATION")
             intent.getParcelableExtra(EXTRA_PLASTIC_TYPE)
         }
+
         val date = intent.getStringExtra(EXTRA_DATE)
         val description = intent.getStringExtra(EXTRA_DESCRIPTION) ?: "limbah plastik"
 
@@ -90,6 +91,12 @@ class ResultActivity : AppCompatActivity() {
         bottomSheetBinding.homeButton.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+            startActivity(intent)
+            finish()
+        }
+
+        binding.fabScanAgain.setOnClickListener {
+            val intent = Intent(this, ScanActivity::class.java)
             startActivity(intent)
             finish()
         }

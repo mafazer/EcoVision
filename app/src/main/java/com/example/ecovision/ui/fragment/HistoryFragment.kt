@@ -1,5 +1,6 @@
 package com.example.ecovision.ui.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -11,6 +12,7 @@ import com.example.ecovision.adapter.HistoryAdapter
 import com.example.ecovision.data.local.HistoryEntity
 import com.example.ecovision.data.local.HistoryRepository
 import com.example.ecovision.databinding.FragmentHistoryBinding
+import com.example.ecovision.ui.DetailHistoryActivity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -36,7 +38,7 @@ class HistoryFragment : Fragment() {
         historyRepository = HistoryRepository(requireContext())
 
         binding.rvRecentHistory.layoutManager = LinearLayoutManager(context)
-        historyAdapter = HistoryAdapter(emptyList(), ::onDeleteHistory, ::onChangeDescription)
+        historyAdapter = HistoryAdapter(emptyList(), ::onDeleteHistory, ::onChangeDescription, ::onHistoryItemClick)
         binding.rvRecentHistory.adapter = historyAdapter
 
         loadHistory()
@@ -74,6 +76,16 @@ class HistoryFragment : Fragment() {
                 historyAdapter.updateData(updatedList)
             }
         }
+    }
+
+    private fun onHistoryItemClick(historyItem: HistoryEntity) {
+        val intent = Intent(requireContext(), DetailHistoryActivity::class.java).apply {
+            putExtra(DetailHistoryActivity.EXTRA_DESCRIPTION, historyItem.description)
+            putExtra(DetailHistoryActivity.EXTRA_IMAGE_URI, historyItem.imageUri)
+            putExtra(DetailHistoryActivity.EXTRA_PLASTIC_TYPE, historyItem.category)
+            putExtra(DetailHistoryActivity.EXTRA_DATE, historyItem.date)
+        }
+        startActivity(intent)
     }
 
     override fun onDestroyView() {
