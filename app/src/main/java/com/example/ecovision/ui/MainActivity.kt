@@ -15,6 +15,13 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
+    private val homeFragment = HomeFragment()
+    private val articleFragment = ArticleFragment()
+    private val historyFragment = HistoryFragment()
+    private val profileFragment = ProfileFragment()
+
+    private var activeFragment: Fragment = homeFragment
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -22,19 +29,19 @@ class MainActivity : AppCompatActivity() {
 
         binding.bottomNavigationView.menu.getItem(2).isEnabled = false
 
-        val homeFragment = HomeFragment()
-        val articleFragment = ArticleFragment()
-        val historyFragment = HistoryFragment()
-        val profileFragment = ProfileFragment()
-
-        setCurrentFragment(homeFragment)
+        supportFragmentManager.beginTransaction().apply {
+            add(R.id.frameFragment, profileFragment, "Profile").hide(profileFragment)
+            add(R.id.frameFragment, historyFragment, "History").hide(historyFragment)
+            add(R.id.frameFragment, articleFragment, "Article").hide(articleFragment)
+            add(R.id.frameFragment, homeFragment, "Home")
+        }.commit()
 
         binding.bottomNavigationView.setOnItemSelectedListener { item ->
             when (item.itemId) {
-                R.id.miHome -> setCurrentFragment(homeFragment)
-                R.id.miArticle -> setCurrentFragment(articleFragment)
-                R.id.miHistory -> setCurrentFragment(historyFragment)
-                R.id.miProfile -> setCurrentFragment(profileFragment)
+                R.id.miHome -> showFragment(homeFragment)
+                R.id.miArticle -> showFragment(articleFragment)
+                R.id.miHistory -> showFragment(historyFragment)
+                R.id.miProfile -> showFragment(profileFragment)
             }
             true
         }
@@ -45,9 +52,17 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun setCurrentFragment(fragment: Fragment) =
-        supportFragmentManager.beginTransaction().apply {
-            replace(R.id.frameFragment, fragment)
-            commit()
+    private fun showFragment(fragment: Fragment) {
+        supportFragmentManager.beginTransaction().hide(activeFragment).show(fragment).commit()
+        activeFragment = fragment
+    }
+
+
+    override fun onBackPressed() {
+        if (supportFragmentManager.backStackEntryCount > 0) {
+            super.onBackPressedDispatcher.onBackPressed()
+        } else {
+            moveTaskToBack(true)
         }
+    }
 }

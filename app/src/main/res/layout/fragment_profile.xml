@@ -155,7 +155,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
                     android:backgroundTint="#0d8f29"
-                    android:text="Edit" />
+                    android:text="Edit"
+                    android:textColor="@color/white"/>
 
                 <Button
                     android:id="@+id/logoutButton"
@@ -163,7 +164,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="56dp"
                     android:backgroundTint="#9c1121"
-                    android:text="Logout" />
+                    android:text="Logout"
+                    android:textColor="@color/white"/>
 
             </LinearLayout>
         </androidx.cardview.widget.CardView>

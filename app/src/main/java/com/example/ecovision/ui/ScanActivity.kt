@@ -5,7 +5,9 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Matrix
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Log
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
@@ -24,16 +26,26 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import com.example.ecovision.data.PlasticData
+import com.example.ecovision.data.retrofit.ApiService
+import com.example.ecovision.data.retrofit.PredictionResponse
+import com.example.ecovision.data.retrofit.RetrofitClientInstance
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 import com.example.ecovision.databinding.ActivityScanBinding
 import com.example.ecovision.detection.BoundingBox
 import com.example.ecovision.detection.Detector
 import com.example.ecovision.util.Constants
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+
 
 
 class ScanActivity : AppCompatActivity(), Detector.DetectorListener {
@@ -50,10 +62,20 @@ class ScanActivity : AppCompatActivity(), Detector.DetectorListener {
 
     private lateinit var cameraExecutor: ExecutorService
 
+    private val pickImage = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
+        uri?.let {
+            processImageUri(it)
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityScanBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        binding.uploadButton.setOnClickListener {
+            pickImage.launch("image/*")
+        }
 
         val decorView = window.decorView
         @Suppress("DEPRECATION") val windowInsetsController = ViewCompat.getWindowInsetsController(decorView)
@@ -194,6 +216,55 @@ class ScanActivity : AppCompatActivity(), Detector.DetectorListener {
         } catch (exc: Exception) {
             Log.e(TAG, "Use case binding failed", exc)
         }
+    }
+
+    private fun processImageUri(uri: Uri) {
+        binding.progressBar.visibility = View.VISIBLE
+
+        val file = File(getRealPathFromURI(uri))
+        val requestFile = RequestBody.create("multipart/form-data".toMediaTypeOrNull(), file)
+        val body = MultipartBody.Part.createFormData("file", file.name, requestFile)
+
+        val service = RetrofitClientInstance.retrofitInstance.create(ApiService::class.java)
+        val call = service.predict(body)
+
+        call.enqueue(object : Callback<PredictionResponse> {
+            override fun onResponse(call: Call<PredictionResponse>, response: Response<PredictionResponse>) {
+                if (response.isSuccessful) {
+                    val predictionResponse = response.body()
+                    val imageUrl = predictionResponse?.image_url
+                    val predictedClass = predictionResponse?.predicted_class
+
+                    Log.d(TAG, "Prediction response: $predictionResponse")
+
+                    val intent = Intent(this@ScanActivity, ResultActivity::class.java).apply {
+                        putExtra(ResultActivity.EXTRA_DESCRIPTION, predictedClass)
+                        putExtra(ResultActivity.EXTRA_IMAGE_URI, uri.toString())
+                    }
+                    startActivity(intent)
+                } else {
+                    Log.e(TAG, "Prediction request failed: ${response.errorBody()?.string()}")
+                }
+                binding.progressBar.visibility = View.GONE
+            }
+
+            override fun onFailure(call: Call<PredictionResponse>, t: Throwable) {
+                Log.e(TAG, "Prediction request failed: ${t.message}")
+                binding.progressBar.visibility = View.GONE
+            }
+        })
+    }
+
+    private fun getRealPathFromURI(uri: Uri): String {
+        var path = ""
+        val cursor = contentResolver.query(uri, null, null, null, null)
+        cursor?.let {
+            it.moveToFirst()
+            val idx = it.getColumnIndex(MediaStore.Images.ImageColumns.DATA)
+            path = it.getString(idx)
+            it.close()
+        }
+        return path
     }
 
     private fun allPermissionsGranted() = REQUIRED_PERMISSIONS.all {

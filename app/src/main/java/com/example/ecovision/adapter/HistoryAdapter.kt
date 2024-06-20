@@ -15,6 +15,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
 import java.util.Locale
 
@@ -63,15 +64,19 @@ class HistoryAdapter(
         }
 
         fun bind(historyItem: HistoryEntity) {
-            CoroutineScope(Dispatchers.IO).launch {
-                val inputDateFormat = SimpleDateFormat("dd MMMM yyyy", Locale.getDefault())
-                val outputDateFormat = SimpleDateFormat("dd MMMM\nyyyy", Locale.getDefault())
-                val date = inputDateFormat.parse(historyItem.date)
-                val formattedDate = date?.let { outputDateFormat.format(it) } ?: historyItem.date
+            if (historyItem.date.isNotEmpty()) {
+                CoroutineScope(Dispatchers.IO).launch {
+                    val inputDateFormat = SimpleDateFormat("dd MMMM yyyy", Locale.getDefault())
+                    val outputDateFormat = SimpleDateFormat("dd MMMM\nyyyy", Locale.getDefault())
+                    val date = inputDateFormat.parse(historyItem.date)
+                    val formattedDate = date?.let { outputDateFormat.format(it) } ?: historyItem.date
 
-                CoroutineScope(Dispatchers.Main).launch {
-                    tvDate.text = formattedDate
+                    withContext(Dispatchers.Main) {
+                        tvDate.text = formattedDate
+                    }
                 }
+            } else {
+                tvDate.text = "N/A"
             }
 
             tvDescription.text = historyItem.description
