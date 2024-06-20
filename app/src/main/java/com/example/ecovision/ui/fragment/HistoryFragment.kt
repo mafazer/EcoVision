@@ -62,11 +62,9 @@ class HistoryFragment : Fragment() {
     private fun updateEmptyView(isEmpty: Boolean) {
         if (isEmpty) {
             binding.imageViewEmpty.visibility = View.VISIBLE
-            binding.textViewEmpty.visibility = View.VISIBLE
             binding.rvRecentHistory.visibility = View.GONE
         } else {
             binding.imageViewEmpty.visibility = View.GONE
-            binding.textViewEmpty.visibility = View.GONE
             binding.rvRecentHistory.visibility = View.VISIBLE
         }
     }

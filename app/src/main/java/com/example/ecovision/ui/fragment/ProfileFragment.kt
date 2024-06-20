@@ -12,6 +12,7 @@ import androidx.credentials.ClearCredentialStateRequest
 import androidx.credentials.CredentialManager
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
+import com.example.ecovision.R
 import com.example.ecovision.databinding.FragmentProfileBinding
 import com.example.ecovision.login.LoginActivity
 import com.example.ecovision.ui.EditProfileActivity
@@ -62,7 +63,7 @@ class ProfileFragment : Fragment() {
                 putExtra("isFirebaseUser", true)
                 putExtra("displayName", firebaseUser.displayName)
                 putExtra("email", firebaseUser.email)
-                putExtra("photoUrl", firebaseUser.photoUrl.toString())
+                putExtra("photoUrl", firebaseUser.photoUrl?.toString())
                 putExtra("fullName", binding.fullName.text.toString())
                 putExtra("birthday", binding.birthday.text.toString())
                 putExtra("location", binding.location.text.toString())
@@ -77,41 +78,45 @@ class ProfileFragment : Fragment() {
 
     private fun updateProfileData() {
         val firebaseUser = auth.currentUser
-        _binding?.let { binding ->
-            binding.progressBar.visibility = View.VISIBLE
-            binding.cardViewProfile.visibility = View.GONE
+        binding.progressBar.visibility = View.VISIBLE
+        binding.cardViewProfile.visibility = View.GONE
 
-            binding.username.text = firebaseUser?.displayName ?: "Username not set"
-            binding.email.text = firebaseUser?.email ?: "Email not set"
+        binding.username.text = firebaseUser?.displayName ?: "Username not set"
+        binding.email.text = firebaseUser?.email ?: "Email not set"
 
-            val userId = firebaseUser?.uid
-            if (userId != null) {
-                db.collection("users").document(userId).get()
-                    .addOnSuccessListener { document ->
-                        if (document != null) {
-                            val fullName = document.getString("fullName") ?: "not set"
-                            val birthday = document.getString("birthday") ?: "not set"
-                            val location = document.getString("location") ?: "not set"
-                            binding.fullName.text = fullName
-                            binding.birthday.text = birthday
-                            binding.location.text = location
+        val userId = firebaseUser?.uid
+        if (userId != null) {
+            db.collection("users").document(userId).get()
+                .addOnSuccessListener { document ->
+                    if (document != null) {
+                        val fullName = document.getString("fullName") ?: "not set"
+                        val birthday = document.getString("birthday") ?: "not set"
+                        val location = document.getString("location") ?: "not set"
+                        binding.fullName.text = fullName
+                        binding.birthday.text = birthday
+                        binding.location.text = location
+                        val photoUrl = document.getString("photoUrl")
+                        if (photoUrl != null) {
+                            Glide.with(this).load(photoUrl).into(binding.profilePicture)
+                        } else {
+                            firebaseUser.photoUrl?.let { firebasePhotoUrl ->
+                                Glide.with(this).load(firebasePhotoUrl).placeholder(R.drawable.ic_profile).into(binding.profilePicture)
+                            } ?: run {
+                                binding.profilePicture.setImageResource(R.drawable.ic_profile)
+                            }
                         }
-                        binding.progressBar.visibility = View.GONE
-                        binding.cardViewProfile.visibility = View.VISIBLE
                     }
-                    .addOnFailureListener { exception ->
-                        Log.e("ProfileFragment", "Error getting profile data: ${exception.message}")
-                        binding.progressBar.visibility = View.GONE
-                        binding.cardViewProfile.visibility = View.VISIBLE
-                    }
-
-                firebaseUser.photoUrl?.let { photoUrl ->
-                    Glide.with(this).load(photoUrl).into(binding.profilePicture)
+                    binding.progressBar.visibility = View.GONE
+                    binding.cardViewProfile.visibility = View.VISIBLE
                 }
-            } else {
-                binding.progressBar.visibility = View.GONE
-                binding.cardViewProfile.visibility = View.VISIBLE
-            }
+                .addOnFailureListener { exception ->
+                    Log.e("ProfileFragment", "Error getting profile data: ${exception.message}")
+                    binding.progressBar.visibility = View.GONE
+                    binding.cardViewProfile.visibility = View.VISIBLE
+                }
+        } else {
+            binding.progressBar.visibility = View.GONE
+            binding.cardViewProfile.visibility = View.VISIBLE
         }
     }
 

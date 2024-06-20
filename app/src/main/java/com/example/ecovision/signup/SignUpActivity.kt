@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.ecovision.databinding.ActivitySignUpBinding
 import com.example.ecovision.login.LoginActivity
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 
@@ -28,31 +29,36 @@ class SignUpActivity : AppCompatActivity() {
 
         binding.registerButton.setOnClickListener {
             showLoading(true)
-            auth.createUserWithEmailAndPassword(
-                binding.emailEditText.text.toString().trim(),
-                binding.passwordEditText.text.toString().trim()
-            )
+            val email = binding.emailEditText.text.toString().trim()
+            val password = binding.passwordEditText.text.toString().trim()
+            val username = binding.nameEditText.text.toString().trim()
+
+            auth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this) { task ->
                     showLoading(false)
                     if (task.isSuccessful) {
-                        // Sign in success, update UI with the signed-in user's information
                         Log.d(TAG, "createUserWithEmail:success")
                         val user = auth.currentUser
-                        val intent = Intent(this, LoginActivity::class.java)
-                        startActivity(intent)
+                        user?.updateProfile(UserProfileChangeRequest.Builder().setDisplayName(username).build())
+                            ?.addOnCompleteListener { updateTask ->
+                                if (updateTask.isSuccessful) {
+                                    auth.signOut()
+                                    val intent = Intent(this, LoginActivity::class.java)
+                                    startActivity(intent)
+                                    finish()
+                                } else {
+                                    Log.w(TAG, "updateProfile:failure", updateTask.exception)
+                                    Toast.makeText(baseContext, "Authentication failed.", Toast.LENGTH_SHORT).show()
+                                }
+                            }
                     } else {
-                        // If sign in fails, display a message to the user.
                         Log.w(TAG, "createUserWithEmail:failure", task.exception)
-                        Toast.makeText(
-                            baseContext,
-                            "Authentication failed.",
-                            Toast.LENGTH_SHORT,
-                        ).show()
+                        Toast.makeText(baseContext, "Authentication failed.", Toast.LENGTH_SHORT).show()
                     }
                 }
         }
 
-        binding.move.setOnClickListener{
+        binding.move.setOnClickListener {
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
         }

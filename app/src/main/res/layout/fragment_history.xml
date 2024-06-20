@@ -24,17 +24,6 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:visibility="visible"/>
 
-        <TextView
-            android:id="@+id/textViewEmpty"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/scan_to_add_history"
-            android:textSize="25sp"
-            android:visibility="gone"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/imageViewEmpty" />
-
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvRecentHistory"
             android:layout_width="0dp"

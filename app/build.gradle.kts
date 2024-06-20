@@ -56,6 +56,7 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
 
     implementation("com.github.bumptech.glide:glide:4.16.0")
+    annotationProcessor("com.github.bumptech.glide:compiler:4.16.0")
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
     implementation("com.squareup.okhttp3:logging-interceptor:4.11.0")
@@ -66,6 +67,7 @@ dependencies {
     implementation(libs.play.services.auth)
     implementation(platform("com.google.firebase:firebase-bom:33.1.0"))
     implementation("com.google.firebase:firebase-analytics")
+    implementation("com.google.firebase:firebase-storage:21.0.0")
     implementation(libs.firebase.auth)
     implementation(libs.androidx.credentials)
     implementation(libs.androidx.credentials.play.services.auth)
@@ -74,6 +76,8 @@ dependencies {
 
     implementation("com.github.denzcoskun:ImageSlideshow:0.1.0")
     implementation("de.hdodenhof:circleimageview:3.1.0")
+    implementation("androidx.exifinterface:exifinterface:1.3.7")
+
 
     implementation("com.google.android.gms:play-services-maps:18.0.2")
     implementation("com.google.android.gms:play-services-location:20.0.0")
