@@ -1,7 +1,6 @@
 package com.example.ecovision.login
 
 import android.app.Activity
-import android.content.ContentValues
 import android.content.ContentValues.TAG
 import android.content.Intent
 import android.os.Bundle
@@ -23,6 +22,8 @@ import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
+import com.google.firebase.auth.FirebaseAuthInvalidUserException
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.auth
@@ -52,15 +53,30 @@ class LoginActivity : AppCompatActivity() {
 
         binding.loginButton.setOnClickListener {
             showLoading(true)
-            auth.signInWithEmailAndPassword(
-                binding.emailEditText.text.toString().trim(),
-                binding.passwordEditText.text.toString().trim()
-            )
+            val email = binding.emailEditText.text.toString().trim()
+            val password = binding.passwordEditText.text.toString().trim()
+
+            if (email.isEmpty()) {
+                binding.emailEditTextLayout.error = "Email cannot be empty"
+                showLoading(false)
+                return@setOnClickListener
+            } else {
+                binding.emailEditTextLayout.error = null
+            }
+
+            if (password.isEmpty()) {
+                binding.passwordEditTextLayout.error = "Password cannot be empty"
+                showLoading(false)
+                return@setOnClickListener
+            } else {
+                binding.passwordEditTextLayout.error = null
+            }
+
+            auth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this) { task ->
                     showLoading(false)
                     if (task.isSuccessful) {
-                        // Sign in success, update UI with the signed-in user's information
-                        Log.d(ContentValues.TAG, "LoginUserWithEmail:success")
+                        Log.d(TAG, "LoginUserWithEmail:success")
                         val user = auth.currentUser
                         val intent = Intent(this, MainActivity::class.java).apply {
                             putExtra("username", user?.displayName)
@@ -68,23 +84,36 @@ class LoginActivity : AppCompatActivity() {
                         startActivity(intent)
                         finish()
                     } else {
-                        // If sign in fails, display a message to the user.
-                        Log.w(ContentValues.TAG, "LoginUserWithEmail:failure", task.exception)
-                        Toast.makeText(
-                            baseContext,
-                            "Authentication failed.",
-                            Toast.LENGTH_SHORT,
-                        ).show()
+                        handleLoginException(task.exception)
                     }
                 }
         }
+
         binding.signInButton.setOnClickListener {
             showLoading(true)
             signIn()
         }
+
         binding.move.setOnClickListener {
             val intent = Intent(this, SignUpActivity::class.java)
             startActivity(intent)
+        }
+    }
+
+    private fun handleLoginException(exception: Exception?) {
+        when (exception) {
+            is FirebaseAuthInvalidCredentialsException -> {
+                binding.emailEditTextLayout.error = "Incorrect email or password"
+                binding.passwordEditTextLayout.error = null
+            }
+            is FirebaseAuthInvalidUserException -> {
+                binding.emailEditTextLayout.error = "No account found with this email"
+                binding.passwordEditTextLayout.error = null
+            }
+            else -> {
+                Toast.makeText(baseContext, "Authentication failed.", Toast.LENGTH_SHORT).show()
+                Log.e(TAG, "LoginUserWithEmail:failure", exception)
+            }
         }
     }
 
@@ -100,12 +129,10 @@ class LoginActivity : AppCompatActivity() {
         if (result.resultCode == Activity.RESULT_OK) {
             val task: Task<GoogleSignInAccount> = GoogleSignIn.getSignedInAccountFromIntent(result.data)
             try {
-                // Google Sign In was successful, authenticate with Firebase
                 val account: GoogleSignInAccount = task.getResult(ApiException::class.java)!!
                 Log.d(TAG, "firebaseAuthWithGoogle:" + account.id)
                 firebaseAuthWithGoogle(account.idToken!!)
             } catch (e: ApiException) {
-                // Google Sign In failed, update UI appropriately
                 Log.w(TAG, "Google sign in failed", e)
             }
         }
@@ -116,7 +143,6 @@ class LoginActivity : AppCompatActivity() {
         auth.signInWithCredential(credential)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
-                    // Sign in success, update UI with the signed-in user's information
                     Log.d(TAG, "signInWithCredential:success")
                     val user: FirebaseUser? = auth.currentUser
                     val intent = Intent(this, MainActivity::class.java).apply {
@@ -125,26 +151,14 @@ class LoginActivity : AppCompatActivity() {
                     startActivity(intent)
                     finish()
                 } else {
-                    // If sign in fails, display a message to the user.
+                    Toast.makeText(baseContext, "Google sign in failed.", Toast.LENGTH_SHORT).show()
                     Log.w(TAG, "signInWithCredential:failure", task.exception)
-                    updateUI(null)
                 }
             }
     }
 
-    private fun updateUI(currentUser: FirebaseUser?) {
-        if (currentUser != null) {
-            val intent = Intent(this@LoginActivity, MainActivity::class.java).apply {
-                putExtra("username", currentUser.displayName)
-            }
-            startActivity(intent)
-            finish()
-        }
-    }
-
     public override fun onStart() {
         super.onStart()
-        // Check if user is signed in (non-null) and update UI accordingly.
         val currentUser = auth.currentUser
         if (currentUser != null) {
             val intent = Intent(this, MainActivity::class.java).apply {

@@ -4,12 +4,15 @@ import android.content.ContentValues.TAG
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.util.Patterns
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.ecovision.databinding.ActivitySignUpBinding
 import com.example.ecovision.login.LoginActivity
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuthUserCollisionException
+import com.google.firebase.auth.FirebaseAuthWeakPasswordException
 import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -17,7 +20,6 @@ import com.google.firebase.ktx.Firebase
 class SignUpActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySignUpBinding
     private lateinit var auth: FirebaseAuth
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,6 +35,31 @@ class SignUpActivity : AppCompatActivity() {
             val password = binding.passwordEditText.text.toString().trim()
             val username = binding.nameEditText.text.toString().trim()
 
+            if (username.isEmpty()) {
+                binding.nameEditTextLayout.error = "Name cannot be empty"
+                showLoading(false)
+                return@setOnClickListener
+            } else {
+                binding.nameEditTextLayout.error = null
+            }
+
+            if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                binding.emailEditTextLayout.error = "Invalid email format"
+                showLoading(false)
+                return@setOnClickListener
+            } else {
+                binding.emailEditTextLayout.error = null
+            }
+
+            if (password.length < 6) {
+                binding.passwordEditTextLayout.error = "Password must be at least 6 characters"
+                showLoading(false)
+                return@setOnClickListener
+            } else {
+                binding.passwordEditTextLayout.error = null
+            }
+
+            // Create user with Firebase
             auth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this) { task ->
                     showLoading(false)
@@ -43,17 +70,17 @@ class SignUpActivity : AppCompatActivity() {
                             ?.addOnCompleteListener { updateTask ->
                                 if (updateTask.isSuccessful) {
                                     auth.signOut()
+                                    Toast.makeText(this, "Registration successful.\nPlease log in.", Toast.LENGTH_SHORT).show()
                                     val intent = Intent(this, LoginActivity::class.java)
                                     startActivity(intent)
                                     finish()
                                 } else {
                                     Log.w(TAG, "updateProfile:failure", updateTask.exception)
-                                    Toast.makeText(baseContext, "Authentication failed.", Toast.LENGTH_SHORT).show()
+                                    Toast.makeText(baseContext, "Profile update failed.", Toast.LENGTH_SHORT).show()
                                 }
                             }
                     } else {
-                        Log.w(TAG, "createUserWithEmail:failure", task.exception)
-                        Toast.makeText(baseContext, "Authentication failed.", Toast.LENGTH_SHORT).show()
+                        handleSignUpException(task.exception)
                     }
                 }
         }
@@ -61,6 +88,21 @@ class SignUpActivity : AppCompatActivity() {
         binding.move.setOnClickListener {
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
+        }
+    }
+
+    private fun handleSignUpException(exception: Exception?) {
+        when (exception) {
+            is FirebaseAuthWeakPasswordException -> {
+                binding.passwordEditTextLayout.error = "Password should be at least 6 characters"
+            }
+            is FirebaseAuthUserCollisionException -> {
+                binding.emailEditTextLayout.error = "Email is already in use"
+            }
+            else -> {
+                Toast.makeText(baseContext, "Registration failed.", Toast.LENGTH_SHORT).show()
+                Log.e(TAG, "createUserWithEmail:failure", exception)
+            }
         }
     }
 
@@ -73,6 +115,7 @@ class SignUpActivity : AppCompatActivity() {
             binding.registerButton.isEnabled = true
         }
     }
+
     public override fun onStart() {
         super.onStart()
         // Check if user is signed in (non-null) and update UI accordingly.

@@ -59,7 +59,7 @@
     <string name="history_preview_home">Sampah plastik yang terakhir kamu pindai</string>
     <string name="upload">Upload</string>
     <string name="gpu">GPU</string>
-    <string name="back_home">Balik ke home</string>
+    <string name="back_home">Balik ke Home</string>
     <string name="welcome_sign">Halo,\n%1$s</string>
     <string name="scan_again">Scan lagi</string>
     <string name="scan_again_desc">Scan the plastic again</string>
