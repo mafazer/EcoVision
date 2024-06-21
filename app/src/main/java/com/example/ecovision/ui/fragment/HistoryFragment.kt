@@ -12,7 +12,7 @@ import com.example.ecovision.adapter.HistoryAdapter
 import com.example.ecovision.data.local.HistoryEntity
 import com.example.ecovision.data.local.HistoryRepository
 import com.example.ecovision.databinding.FragmentHistoryBinding
-import com.example.ecovision.ui.DetailHistoryActivity
+import com.example.ecovision.ui.activity.DetailHistoryActivity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -38,7 +38,12 @@ class HistoryFragment : Fragment() {
         historyRepository = HistoryRepository(requireContext())
 
         binding.rvRecentHistory.layoutManager = LinearLayoutManager(context)
-        historyAdapter = HistoryAdapter(emptyList(), ::onDeleteHistory, ::onChangeDescription, ::onHistoryItemClick)
+        historyAdapter = HistoryAdapter(
+            emptyList(),
+            ::onDeleteHistory,
+            ::onChangeDescription,
+            ::onHistoryItemClick
+        )
         binding.rvRecentHistory.adapter = historyAdapter
 
         loadHistory()

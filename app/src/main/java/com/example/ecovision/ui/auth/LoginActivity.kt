@@ -1,4 +1,4 @@
-package com.example.ecovision.login
+package com.example.ecovision.ui.auth
 
 import android.app.Activity
 import android.content.ContentValues.TAG
@@ -10,10 +10,9 @@ import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import com.example.ecovision.ui.MainActivity
+import com.example.ecovision.ui.activity.MainActivity
 import com.example.ecovision.R
 import com.example.ecovision.databinding.ActivityLoginBinding
-import com.example.ecovision.signup.SignUpActivity
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -40,7 +39,6 @@ class LoginActivity : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Configure Google Sign In
         val gso = GoogleSignInOptions
             .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.default_web_client_id))
@@ -106,10 +104,12 @@ class LoginActivity : AppCompatActivity() {
                 binding.emailEditTextLayout.error = "Incorrect email or password"
                 binding.passwordEditTextLayout.error = null
             }
+
             is FirebaseAuthInvalidUserException -> {
                 binding.emailEditTextLayout.error = "No account found with this email"
                 binding.passwordEditTextLayout.error = null
             }
+
             else -> {
                 Toast.makeText(baseContext, "Authentication failed.", Toast.LENGTH_SHORT).show()
                 Log.e(TAG, "LoginUserWithEmail:failure", exception)
@@ -127,7 +127,8 @@ class LoginActivity : AppCompatActivity() {
     ) { result ->
         showLoading(false)
         if (result.resultCode == Activity.RESULT_OK) {
-            val task: Task<GoogleSignInAccount> = GoogleSignIn.getSignedInAccountFromIntent(result.data)
+            val task: Task<GoogleSignInAccount> =
+                GoogleSignIn.getSignedInAccountFromIntent(result.data)
             try {
                 val account: GoogleSignInAccount = task.getResult(ApiException::class.java)!!
                 Log.d(TAG, "firebaseAuthWithGoogle:" + account.id)

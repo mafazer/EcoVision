@@ -38,7 +38,7 @@
         </provider>
 
         <activity
-            android:name=".ui.DetailHistoryActivity"
+            android:name=".ui.activity.DetailHistoryActivity"
             android:exported="false" />
 
         <!--
@@ -57,39 +57,39 @@
             android:value="AIzaSyASKiCJN4kQnG8Gyi7HfBP0AJ0xc8TUq9k" />
 
         <activity
-            android:name=".signup.SignUpActivity"
+            android:name=".ui.auth.SignUpActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.ResultActivity"
+            android:name=".ui.activity.ResultActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.MapsActivity"
+            android:name=".ui.activity.MapsActivity"
             android:exported="false"
             android:label="@string/title_activity_maps" />
         <activity
-            android:name=".ui.GuideActivity"
+            android:name=".ui.activity.GuideActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.WelcomeActivity"
+            android:name=".ui.activity.WelcomeActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.EditProfileActivity"
+            android:name=".ui.activity.EditProfileActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.ScanActivity"
+            android:name=".ui.activity.ScanActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.DetailPlasticActivity"
+            android:name=".ui.activity.DetailPlasticActivity"
             android:exported="false" />
         <activity
-            android:name=".login.LoginActivity"
+            android:name=".ui.auth.LoginActivity"
             android:exported="true" />
         <activity
-            android:name=".ui.MainActivity"
+            android:name=".ui.activity.MainActivity"
             android:exported="true"
             android:theme="@style/Main.Theme.EcoVision" />
         <activity
-            android:name=".ui.SplashActivity"
+            android:name=".ui.activity.SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

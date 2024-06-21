@@ -1,4 +1,4 @@
-package com.example.ecovision.ui
+package com.example.ecovision.ui.activity
 
 import android.os.Bundle
 import android.view.MenuItem
@@ -31,7 +31,6 @@ class DetailPlasticActivity : AppCompatActivity() {
             binding.textViewRecyclingProcessDescription.text = it.recyclingProcess
             binding.textViewEnvironmentalImpactDescription.text = it.environmentalImpact
 
-            // Initialize ImageSlider for example images
             val imageList = ArrayList<SlideModel>()
 
             it.examples.forEach { imageResId ->

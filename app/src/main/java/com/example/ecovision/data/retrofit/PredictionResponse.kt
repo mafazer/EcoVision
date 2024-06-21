@@ -1,6 +1,9 @@
 package com.example.ecovision.data.retrofit
 
+import com.google.gson.annotations.SerializedName
+
 data class PredictionResponse(
-    val predicted_class: String,
-    val image_url: String
+    @SerializedName("predicted_class") val predictedClass: String,
+    @SerializedName("image_url") val imageUrl: String,
+    @SerializedName("prediction_time") val predictionTime: String
 )

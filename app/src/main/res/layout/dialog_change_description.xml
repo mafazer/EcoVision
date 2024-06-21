@@ -9,8 +9,8 @@
         android:id="@+id/editDescription"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Maks 9 karakter"
+        android:hint="Maks 12 karakter"
         android:inputType="text"
-        android:maxLength="9"/>
+        android:maxLength="12"/>
 
 </LinearLayout>

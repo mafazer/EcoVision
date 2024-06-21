@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.ecovision.data.PlasticData
 import com.example.ecovision.adapter.PlasticTypeAdapter
 import com.example.ecovision.R
-import com.example.ecovision.ui.DetailPlasticActivity
+import com.example.ecovision.ui.activity.DetailPlasticActivity
 
 class ArticleFragment : Fragment() {
 

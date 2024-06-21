@@ -1,4 +1,4 @@
-package com.example.ecovision.ui
+package com.example.ecovision.ui.activity
 
 import android.content.Intent
 import android.os.Bundle

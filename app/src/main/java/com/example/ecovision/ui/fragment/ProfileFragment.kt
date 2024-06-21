@@ -14,8 +14,8 @@ import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.example.ecovision.R
 import com.example.ecovision.databinding.FragmentProfileBinding
-import com.example.ecovision.login.LoginActivity
-import com.example.ecovision.ui.EditProfileActivity
+import com.example.ecovision.ui.auth.LoginActivity
+import com.example.ecovision.ui.activity.EditProfileActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -48,16 +48,13 @@ class ProfileFragment : Fragment() {
         db = FirebaseFirestore.getInstance()
         val firebaseUser = auth.currentUser
         if (firebaseUser == null) {
-            // Not signed in, launch the Login activity
             startActivity(Intent(activity, LoginActivity::class.java))
             activity?.finish()
             return
         }
 
-        // Set initial data
         updateProfileData()
 
-        // Set click listeners for buttons if needed
         binding.editButton.setOnClickListener {
             val intent = Intent(context, EditProfileActivity::class.java).apply {
                 putExtra("isFirebaseUser", true)
@@ -100,7 +97,8 @@ class ProfileFragment : Fragment() {
                             Glide.with(this).load(photoUrl).into(binding.profilePicture)
                         } else {
                             firebaseUser.photoUrl?.let { firebasePhotoUrl ->
-                                Glide.with(this).load(firebasePhotoUrl).placeholder(R.drawable.ic_profile).into(binding.profilePicture)
+                                Glide.with(this).load(firebasePhotoUrl)
+                                    .placeholder(R.drawable.ic_profile).into(binding.profilePicture)
                             } ?: run {
                                 binding.profilePicture.setImageResource(R.drawable.ic_profile)
                             }

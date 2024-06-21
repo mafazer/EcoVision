@@ -33,7 +33,7 @@ class PlasticTypeAdapter(
         fun bind(plasticType: PlasticType) {
             imageView.setImageResource(plasticType.imageResId)
             textView.text = plasticType.name
-            imageViewSymbol.setImageResource(plasticType.imageIcon) // Set actual symbol resource
+            imageViewSymbol.setImageResource(plasticType.imageIcon)
             itemView.setOnClickListener { onClick(plasticType) }
         }
     }

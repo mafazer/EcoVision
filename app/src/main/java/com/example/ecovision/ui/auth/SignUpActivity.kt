@@ -1,4 +1,4 @@
-package com.example.ecovision.signup
+package com.example.ecovision.ui.auth
 
 import android.content.ContentValues.TAG
 import android.content.Intent
@@ -9,7 +9,6 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.ecovision.databinding.ActivitySignUpBinding
-import com.example.ecovision.login.LoginActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException
@@ -59,24 +58,33 @@ class SignUpActivity : AppCompatActivity() {
                 binding.passwordEditTextLayout.error = null
             }
 
-            // Create user with Firebase
             auth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this) { task ->
                     showLoading(false)
                     if (task.isSuccessful) {
                         Log.d(TAG, "createUserWithEmail:success")
                         val user = auth.currentUser
-                        user?.updateProfile(UserProfileChangeRequest.Builder().setDisplayName(username).build())
+                        user?.updateProfile(
+                            UserProfileChangeRequest.Builder().setDisplayName(username).build()
+                        )
                             ?.addOnCompleteListener { updateTask ->
                                 if (updateTask.isSuccessful) {
                                     auth.signOut()
-                                    Toast.makeText(this, "Registration successful.\nPlease log in.", Toast.LENGTH_SHORT).show()
+                                    Toast.makeText(
+                                        this,
+                                        "Registration successful.\nPlease log in.",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
                                     val intent = Intent(this, LoginActivity::class.java)
                                     startActivity(intent)
                                     finish()
                                 } else {
                                     Log.w(TAG, "updateProfile:failure", updateTask.exception)
-                                    Toast.makeText(baseContext, "Profile update failed.", Toast.LENGTH_SHORT).show()
+                                    Toast.makeText(
+                                        baseContext,
+                                        "Profile update failed.",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
                                 }
                             }
                     } else {
@@ -96,9 +104,11 @@ class SignUpActivity : AppCompatActivity() {
             is FirebaseAuthWeakPasswordException -> {
                 binding.passwordEditTextLayout.error = "Password should be at least 6 characters"
             }
+
             is FirebaseAuthUserCollisionException -> {
                 binding.emailEditTextLayout.error = "Email is already in use"
             }
+
             else -> {
                 Toast.makeText(baseContext, "Registration failed.", Toast.LENGTH_SHORT).show()
                 Log.e(TAG, "createUserWithEmail:failure", exception)
@@ -118,7 +128,6 @@ class SignUpActivity : AppCompatActivity() {
 
     public override fun onStart() {
         super.onStart()
-        // Check if user is signed in (non-null) and update UI accordingly.
         val currentUser = auth.currentUser
         if (currentUser != null) {
             val intent = Intent(this, LoginActivity::class.java)

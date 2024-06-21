@@ -1,4 +1,4 @@
-package com.example.ecovision.ui
+package com.example.ecovision.ui.activity
 
 import android.app.DatePickerDialog
 import android.content.pm.PackageManager
@@ -71,7 +71,6 @@ class EditProfileActivity : AppCompatActivity() {
         val birthday = intent.getStringExtra("birthday") ?: "not set"
         val location = intent.getStringExtra("location") ?: "not set"
 
-        // Set initial data
         binding.fullNameEdit.setText(fullName)
         binding.emailEdit.setText(email)
         binding.birthdayEdit.setText(birthday)
@@ -79,7 +78,7 @@ class EditProfileActivity : AppCompatActivity() {
 
         if (isFirebaseUser) {
             binding.changePictureButton.visibility = View.VISIBLE
-            binding.profilePictureEdit.setImageResource(R.drawable.ic_profile) // Default profile picture
+            binding.profilePictureEdit.setImageResource(R.drawable.ic_profile)
         } else {
             binding.changePictureButton.visibility = View.GONE
             Glide.with(this).load(photoUrl).into(binding.profilePictureEdit)
@@ -126,7 +125,7 @@ class EditProfileActivity : AppCompatActivity() {
     }
 
     private fun checkPermission() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {  // Android 13 and above
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_MEDIA_IMAGES)
                 != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(this,
@@ -135,7 +134,7 @@ class EditProfileActivity : AppCompatActivity() {
             } else {
                 openGallery()
             }
-        } else {  // Below Android 13
+        } else {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(this,

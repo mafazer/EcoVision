@@ -7,7 +7,7 @@
     android:background="@color/light_green"
     android:statusBarColor="@color/light_green"
     app:layoutDescription="@xml/activity_welcome_scene"
-    tools:context=".ui.WelcomeActivity">
+    tools:context=".ui.activity.WelcomeActivity">
 
     <ImageView
         android:id="@+id/logoMenu1"

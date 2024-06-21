@@ -14,8 +14,8 @@ import com.example.ecovision.data.TipsData
 import com.example.ecovision.data.local.HistoryEntity
 import com.example.ecovision.data.local.HistoryRepository
 import com.example.ecovision.databinding.FragmentHomeBinding
-import com.example.ecovision.ui.DetailHistoryActivity
-import com.example.ecovision.ui.GuideActivity
+import com.example.ecovision.ui.activity.DetailHistoryActivity
+import com.example.ecovision.ui.activity.GuideActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -63,7 +63,12 @@ class HomeFragment : Fragment() {
 
         val recyclerView = binding.rvRecentHistory
         recyclerView.layoutManager = LinearLayoutManager(context)
-        historyAdapter = HistoryAdapter(emptyList(), ::onDeleteHistory, ::onChangeDescription, ::onHistoryItemClick)
+        historyAdapter = HistoryAdapter(
+            emptyList(),
+            ::onDeleteHistory,
+            ::onChangeDescription,
+            ::onHistoryItemClick
+        )
         recyclerView.adapter = historyAdapter
 
         loadHistory()

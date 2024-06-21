@@ -1,4 +1,4 @@
-package com.example.ecovision.ui
+package com.example.ecovision.ui.activity
 
 import android.content.Context
 import android.content.Intent
@@ -13,6 +13,7 @@ import android.widget.LinearLayout
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
+import com.bumptech.glide.Glide
 import com.example.ecovision.data.PlasticData
 import com.example.ecovision.databinding.ActivityDetailHistoryBinding
 import com.example.ecovision.databinding.BottomSheetResultBinding
@@ -32,13 +33,14 @@ class DetailHistoryActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         setSupportActionBar(binding.toolbar)
-        supportActionBar?.title = "Detail History"
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
         val plasticType = intent.getStringExtra(EXTRA_PLASTIC_TYPE)
         val date = intent.getStringExtra(EXTRA_DATE)
         val description = intent.getStringExtra(EXTRA_DESCRIPTION)
+
+        supportActionBar?.title = description
 
         if (plasticType != null) {
             val plasticData = PlasticData.plasticTypes.find { it.name == plasticType }
@@ -55,7 +57,9 @@ class DetailHistoryActivity : AppCompatActivity() {
 
         val imageUri = intent.getStringExtra(EXTRA_IMAGE_URI)
         if (imageUri != null) {
-            binding.resultImageView.setImageURI(Uri.parse(imageUri))
+            Glide.with(this)
+                .load(imageUri)
+                .into(binding.resultImageView)
         }
 
         binding.tvDate.text = date

@@ -12,7 +12,7 @@ import android.view.View
 import androidx.core.content.ContextCompat
 import com.example.ecovision.R
 import com.example.ecovision.detection.BoundingBox
-import com.example.ecovision.ui.ScanActivity
+import com.example.ecovision.ui.activity.ScanActivity
 
 
 

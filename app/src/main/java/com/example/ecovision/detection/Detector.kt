@@ -124,8 +124,8 @@ class Detector(
 
             if (maxConf > CONFIDENCE_THRESHOLD) {
                 val clsName = labels[maxIdx]
-                val cx = array[c] // 0
-                val cy = array[c + numElements] // 1
+                val cx = array[c]
+                val cy = array[c + numElements]
                 val w = array[c + numElements * 2]
                 val h = array[c + numElements * 3]
                 val x1 = cx - (w/2F)

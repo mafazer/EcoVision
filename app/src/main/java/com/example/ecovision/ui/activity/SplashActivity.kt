@@ -1,4 +1,4 @@
-package com.example.ecovision.ui
+package com.example.ecovision.ui.activity
 
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -8,7 +8,7 @@ import android.os.Looper
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import com.example.ecovision.databinding.ActivitySplashBinding
-import com.example.ecovision.signup.SignUpActivity
+import com.example.ecovision.ui.auth.SignUpActivity
 
 @SuppressLint("CustomSplashScreen")
 class SplashActivity : AppCompatActivity() {
