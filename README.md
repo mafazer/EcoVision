@@ -4,8 +4,8 @@
 <h3 allign="center">An application designed to assist users in identifying plastic waste by using the 7-types recycling code system.</h3>
 
 ## Features
-- **Object Detection** Utilize machine learning models to identify plastic waste.
-- **Image Classifying:** Utilize machine learning models by uploading to server to identify plastic waste.
+- **Object Detection:** Leverage machine learning models to detect plastic waste.
+- **Image Classifying:** Employ machine learning models to identify plastic waste by uploading images to a server.
 
 ## Installation
 To install and run the ecoVision application on your local machine, follow these steps:
