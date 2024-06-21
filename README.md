@@ -29,7 +29,7 @@ To install and run the ecoVision application on your local machine, follow these
 ## Usage
 1. **Launch the App**
 2. **Open Scan Feature**
-3. **Choose Either Upload or Click on the Box Displayed**
+3. **Choose Either Upload or Tap on the Box Displayed**
 
 
 ## License
