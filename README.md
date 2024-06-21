@@ -1,9 +1,7 @@
 ![LayoutGit](https://github.com/mafazer/EcoVision/assets/72061647/285949ee-ff30-4163-a813-07b91b9df0ec)
 
 <h1 align="center">ecoVision</h1>
-
-## Introduction
-Helping user to identifying plastic waste with 7-types recycling code.
+<h3 allign="center">An application designed to assist users in identifying plastic waste by using the 7-types recycling code system.</h3>
 
 ## Features
 - **Object Detection** Utilize machine learning models to identify plastic waste.
