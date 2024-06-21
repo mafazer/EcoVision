@@ -1,4 +1,4 @@
-![Layout]([https://github.com/mafazer/EcoVision/assets/72061647/9d599b26-a399-4aad-982d-0dc7655bc637](https://github.com/C241-PS451/ecoVision-Project/assets/171784555/7895a3d9-a174-41c9-8ae6-7c9c290a8576))
+![Layout](https://github.com/mafazer/EcoVision/assets/72061647/9d599b26-a399-4aad-982d-0dc7655bc637](https://github.com/C241-PS451/ecoVision-Project/assets/171784555/7895a3d9-a174-41c9-8ae6-7c9c290a8576)
 
 <h1 align="center">ecoVision</h1>
 
